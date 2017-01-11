@@ -1,0 +1,21 @@
+# Main Django stuffs
+Django==1.10.5
+django-environ==0.4.1
+django-extensions==1.7.5
+
+# Forms
+django-braces==1.10.0
+django-crispy-forms==1.6.1
+
+# Models
+django-model-utils==2.6
+
+# Users
+django-allauth==0.30.0
+
+# Websockets
+channels==1.0.1
+
+# General utilities
+arrow==0.10.0
+pytz==2016.10

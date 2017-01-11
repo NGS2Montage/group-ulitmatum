@@ -1,0 +1,5 @@
+-r requirements.txt
+
+# Make sure debug toolbar gets a version of sqlparse it can use
+sqlparse==0.2.2
+django-debug-toolbar==1.6
