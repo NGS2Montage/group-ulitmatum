@@ -57,6 +57,10 @@ INSTALLED_APPS = (
 
     # our stuff
     'core',
+    'surveys',
+    'anagrams',
+    'publicgoods',
+    'groupultimatums',
 )
 
 if DEBUG:
@@ -84,6 +88,7 @@ TEMPLATES = [
         'DIRS': [
             ROOT_DIR.path('ngs2')('templates'),
             ROOT_DIR.path('core')('templates'),
+            ROOT_DIR.path('publicgoods')('templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -155,6 +160,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
+
+STATICFILES_DIRS = (
+    ROOT_DIR.path('anagrams')('static'),
+    ROOT_DIR.path('publicgoods')('static'),
+    ROOT_DIR.path('groupultimatums')('static'),
+)
 
 STATIC_URL = '/static/'
 

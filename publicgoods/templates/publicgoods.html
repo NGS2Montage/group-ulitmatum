@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}{% block head_title %}{% endblock head_title %}{% endblock title %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" href='{% static 'publicgoods/css/game.css' %}'></link>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- 
+        Code here
+     -->
+</div>
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script src="{% static 'publicgoods/js/game.js' %}"></script>
+{% endblock %}
