@@ -17,12 +17,15 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 
+from core import views
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^phase1/', include('anagrams.urls')),
     url(r'^phase2/', include('publicgoods.urls')),
     url(r'^phase3/', include('groupultimatums.urls')),
+    url(r'^state-mismatch/', views.state_mismatch, name='state-mismatch')
 ]
 
 if settings.DEBUG:
