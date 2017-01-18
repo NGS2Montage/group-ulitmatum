@@ -30,6 +30,7 @@ SECRET_KEY = env.str('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DJANGO_DEBUG', False)
+INTERNAL_IPS = ['127.0.0.1'] if DEBUG else []
 
 possible_hosts = env.str('DJANGO_ALLOWED_HOST', None)
 ALLOWED_HOSTS = possible_hosts.split(',') if possible_hosts is not None else []
@@ -74,6 +75,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'core.middleware.GameStateRedirectMiddleware',
 ]
 
 if DEBUG:
