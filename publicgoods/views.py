@@ -7,3 +7,10 @@ def game(request):
     context = {}
     # fill in context dict with stuff to pass to template as needed
     return render(request, 'publicgoods.html', context)
+
+
+@login_required
+def waiting_room(request):
+    context = {}
+    # fill in context dict with stuff to pass to template as needed
+    return render(request, 'publicgoods_waiting.html', context)

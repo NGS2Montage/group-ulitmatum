@@ -20,7 +20,9 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^phase1/', include('anagrams.urls')),
     url(r'^phase2/', include('publicgoods.urls')),
+    url(r'^phase3/', include('groupultimatums.urls')),
 ]
 
 if settings.DEBUG:

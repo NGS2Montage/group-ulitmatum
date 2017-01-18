@@ -2,6 +2,7 @@
 Django==1.10.5
 django-environ==0.4.1
 django-extensions==1.7.5
+django-annoying==0.10.3
 
 # Forms
 django-braces==1.10.0
