@@ -40,7 +40,7 @@ def tutorial(request):
 
 
 @game_state_required(user_state="s1", game_state="w1", **valid_state_redirects)
-@render_to('anagrams/tutorial.html')
+@render_to('anagrams/survey.html')
 @login_required
 def survey(request):
     return {}

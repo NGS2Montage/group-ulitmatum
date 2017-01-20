@@ -13,7 +13,7 @@ from .managers import GameManager
 
 @python_2_unicode_compatible
 class Game(TimeStampedModel):
-    STATE = Choices('w1', 'g1', 'w2', 'g2', 'w3', 'g3')
+    STATE = Choices('w1', 'g1', 'w2', 'g2', 'w3', 'g31', 'g32', 'g33')
     state = models.CharField(choices=STATE, default=STATE.w1, max_length=20)
     objects = GameManager()
 
@@ -34,7 +34,7 @@ class Game(TimeStampedModel):
 @python_2_unicode_compatible
 class UserState(TimeStampedModel):
     user = AutoOneToOneField(User, primary_key=True, on_delete=models.CASCADE)
-    STATE = Choices('s1', 't1', 'w1', 'g1')  # needs more
+    STATE = Choices('s1', 't1', 'w1', 'g1', 'g2', 's2', 't2', 'w3', 's3', 't3', 'g31', 'g32', 'g33')
     state = models.CharField(choices=STATE, default=STATE.s1, max_length=20)
 
     def __str__(self):
