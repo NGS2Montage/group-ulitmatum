@@ -26,6 +26,7 @@ class Game(TimeStampedModel):
             # create groups
             # assign anagram letters -> this function should be somewhere in
             #   anagrams dir
+            # advance all users at state w1 to g1
             self.state = 'g1'
             self.save()
 

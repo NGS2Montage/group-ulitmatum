@@ -2,6 +2,8 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^waiting-room/', views.waiting_room),
-    url(r'^anagrams/', views.game),
+    url(r'^survey/', views.survey, name="anagrams-survey"),
+    url(r'^tutorial/', views.tutorial, name="anagrams-tutorial"),
+    url(r'^waiting-room/', views.waiting_room, name="anagrams-waiting"),
+    url(r'^anagrams/', views.game, name="anagrams-game"),
 ]
