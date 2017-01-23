@@ -64,8 +64,6 @@ INSTALLED_APPS = (
     'groupultimatums',
 )
 
-if DEBUG:
-    INSTALLED_APPS += ('debug_toolbar',)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,7 +76,24 @@ MIDDLEWARE = [
 ]
 
 if DEBUG:
+    INSTALLED_APPS += ('debug_toolbar', 'channels_panel')
     MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+
+    DEBUG_TOOLBAR_PANELS = [
+        'debug_toolbar.panels.versions.VersionsPanel',
+        'debug_toolbar.panels.timer.TimerPanel',
+        'debug_toolbar.panels.settings.SettingsPanel',
+        'debug_toolbar.panels.headers.HeadersPanel',
+        'debug_toolbar.panels.request.RequestPanel',
+        'debug_toolbar.panels.sql.SQLPanel',
+        'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+        'debug_toolbar.panels.templates.TemplatesPanel',
+        'debug_toolbar.panels.cache.CachePanel',
+        'debug_toolbar.panels.signals.SignalsPanel',
+        'debug_toolbar.panels.logging.LoggingPanel',
+        'debug_toolbar.panels.redirects.RedirectsPanel',
+        'channels_panel.panel.ChannelsDebugPanel',
+    ]
 
 
 ROOT_URLCONF = 'ngs2.urls'
@@ -191,6 +206,16 @@ SOCIALACCOUNT_ADAPTER = 'core.users.adapters.SocialAccountAdapter'
 # LOGIN_URL = 'account_login'
 
 
+# CHANNELS
+# ------------------------------------------------------------------------------
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        "ROUTING": "core.routing.channel_routing",
+    },
+}
+
+
 # LOGGING NONSENSE
 # ------------------------------------------------------------------------------
 LOGGING = {
@@ -209,7 +234,19 @@ LOGGING = {
         'django_file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': ROOT_DIR.path('logs')('phoenixdash.log'),
+            'filename': ROOT_DIR.path('logs')('django.log'),
+            'formatter': 'verbose'
+        },
+        'core_file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': ROOT_DIR.path('logs')('core.log'),
+            'formatter': 'verbose'
+        },
+        'anagrams_file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': ROOT_DIR.path('logs')('anagrams.log'),
             'formatter': 'verbose'
         },
     },
@@ -220,8 +257,12 @@ LOGGING = {
             'level': 'DEBUG',
         },
         'core': {
-            'handlers': ['django_file'],
+            'handlers': ['core_file'],
             'level': 'DEBUG',
-        }
+        },
+        'anagrams': {
+            'handlers': ['anagrams_file'],
+            'level': 'DEBUG',
+        },
     }
 }

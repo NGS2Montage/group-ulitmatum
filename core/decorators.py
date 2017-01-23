@@ -7,6 +7,9 @@ from .models import Game
 def game_state_required(user_state, game_state, *dec_args, **dec_kwargs):
     def _decorator(view_func):
         def _view(request, *args, **kwargs):
+            if request.user.is_anonymous():
+                return view_func(request, *args, **kwargs)
+
             current_game_state = Game.objects.get_current_game().state
             current_user_state = request.user.userstate.state
 

@@ -39,3 +39,8 @@ class UserState(TimeStampedModel):
 
     def __str__(self):
         return u'state={}'.format(self.state)
+
+
+class ChatMessage(TimeStampedModel):
+    message = models.TextField()
+    group = models.CharField(max_length=200)

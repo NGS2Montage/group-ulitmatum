@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}{% block head_title %}Anagrams Game{% endblock head_title %}{% endblock title %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'anagrams/css/game.css' %}"></link>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div>Yo, anagrams template loaded over here.</div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script src="{% static 'anagrams/js/game.js' %}"></script>
+{% endblock %}
