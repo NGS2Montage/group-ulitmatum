@@ -41,6 +41,10 @@ class UserState(TimeStampedModel):
         return u'state={}'.format(self.state)
 
 
+@python_2_unicode_compatible
 class ChatMessage(TimeStampedModel):
     message = models.TextField()
-    group = models.CharField(max_length=200)
+    room = models.CharField(max_length=200)
+
+    def __str__(self):
+        return u'{}: {}'.format(self.room, self.message)
