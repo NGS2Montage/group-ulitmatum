@@ -1,6 +1,13 @@
+import json
+import logging
+logger = logging.getLogger(__name__)
+
+
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+
+from channels import Channel
 
 from .models import Game
 
@@ -29,3 +36,37 @@ def game_state_required(user_state, game_state, *dec_args, **dec_kwargs):
             return HttpResponseRedirect(reverse('state-mismatch'))
         return _view
     return _decorator
+
+
+def ws_json_payload(function=None):
+    def _decorator(consumer_func):
+        def _view(message, *args, **kwargs):
+            logger.debug("In the decorator, yo")
+
+            json_payload = None
+
+            try:
+                json_payload = json.loads(message['text'])
+            except ValueError:
+                pass
+
+            if json_payload is not None:
+                message['json'] = json_payload
+
+                if 'type' in message['json'] and message['json']['type'] == 'chat':
+                    logger.debug("This message was a chat, send it off ({}) {}".format(message.channel_session['room'], message['json']['message']))
+                    Channel("chat-messages").send({
+                        "room": message.channel_session['room'],
+                        "message": message['json']['message'],
+                    })
+                    return  # return here - do not pass on to consumer
+
+            logger.debug("This message was not a chat, send it on")
+            consumer_func(message)
+        return _view
+
+    if function is None:
+        return _decorator
+    else:
+        return _decorator(function)
+

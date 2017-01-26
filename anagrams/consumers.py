@@ -1,9 +1,11 @@
 import logging
 logger = logging.getLogger(__name__)
 
-from channels import Channel, Group
+from channels import Group
 from channels.sessions import channel_session
-from channels.auth import http_session_user, channel_session_user, channel_session_user_from_http
+from channels.auth import channel_session_user_from_http
+
+from core.decorators import ws_json_payload
 
 
 # Connected to websocket.connect
@@ -22,18 +24,12 @@ def anagrams_add(message):
 
 # Connected to websocket.receive
 @channel_session
+@ws_json_payload
 def anagrams_message(message):
-    logger.debug('got a message')
-
-    Channel("chat-messages").send({
-        "room": message.channel_session['room'],
-        "message": message['text'],
-    })
-
+    logger.debug('got a message {}'.format(message.keys()))
 
 
 # Connected to websocket.disconnect
 @channel_session
 def anagrams_disconnect(message):
     Group("chat-%s" % message.channel_session['room']).discard(message.reply_channel)
-
