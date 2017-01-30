@@ -38,7 +38,7 @@ class UserState(TimeStampedModel):
     state = models.CharField(choices=STATE, default=STATE.s1, max_length=20)
 
     def __str__(self):
-        return u'state={}'.format(self.state)
+        return u'user={} state={}'.format(self.user.username, self.state)
 
 
 @python_2_unicode_compatible
