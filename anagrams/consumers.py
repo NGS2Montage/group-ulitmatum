@@ -18,6 +18,8 @@ def anagrams_add(message):
 
     message.channel_session['room'] = room
 
+    logger.error("NEED TO STORE REPLY CHANNELS IN DATABASE SO THAT WE CAN GROUP THEM LATER")
+
     # Add them to the right group
     Group("chat-%s" % room).add(message.reply_channel)
 

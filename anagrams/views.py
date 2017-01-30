@@ -1,8 +1,11 @@
+import json
+
 from django.contrib.auth.decorators import login_required
 
 from annoying.decorators import render_to
 
 from core.decorators import game_state_required
+from .models import UserLetter
 
 
 valid_state_redirects = {
@@ -18,7 +21,9 @@ valid_state_redirects = {
 @render_to('anagrams/game.html')
 @login_required
 def game(request):
-    context = {}
+    context = {
+        'letters': json.dumps([_.letter for _ in UserLetter.objects.filter(user__username=request.user.username)])
+    }
     # fill in context dict with stuff to pass to template as needed
     return context
 
