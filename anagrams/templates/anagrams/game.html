@@ -4,11 +4,6 @@
 
 {% block title %}{% block head_title %}Anagrams Game{% endblock head_title %}{% endblock title %}
 
-{% block css %}
-    {{ block.super }}
-    <link rel="stylesheet" href="{% static 'anagrams/css/game.css' %}"></link>
-{% endblock %}
-
 {% block extra_head %}
     <script src="https://unpkg.com/core-js@2.4.1/client/shim.min.js"></script>
     <script src="https://unpkg.com/zone.js/dist/zone.js"></script>

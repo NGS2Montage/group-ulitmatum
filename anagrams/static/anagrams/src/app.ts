@@ -1,25 +1,38 @@
 //our root app component
-import {Component, NgModule} from '@angular/core'
+import {Component, NgModule, OnInit} from '@angular/core'
 import {BrowserModule} from '@angular/platform-browser'
+import { LetterService } from './letter.service';
+import { ChatService } from './chat.service';
+import { WebSocketService } from './websocket.service';
 
 @Component({
   selector: 'my-app',
   template: `
-    <div>
-      <h2>Hello {{name}}</h2>
-    </div>
+      <ul class="heroes">
+        <li *ngFor="let letter of letters">
+          {{letter}}
+        </li>
+      </ul>
   `,
 })
-export class App {
-  name:string;
-  constructor() {
-    this.name = 'Angular2'
+export class AppComponent implements OnInit {
+  letters: string[];
+
+  constructor(private letterService: LetterService) { }
+
+  getHeroes(): void {
+    this.letterService.getHeroes().then(letters => this.letters = letters);
+  }
+
+  ngOnInit(): void {
+    this.getHeroes();
   }
 }
 
 @NgModule({
   imports: [ BrowserModule ],
-  declarations: [ App ],
-  bootstrap: [ App ]
+  declarations: [ AppComponent ],
+  bootstrap: [ AppComponent ],
+  providers: [ LetterService, ChatService, WebSocketService ],
 })
 export class AppModule {}
