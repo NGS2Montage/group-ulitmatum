@@ -1,7 +1,8 @@
 from __future__ import unicode_literals
 
+
+from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
 
 from annoying.fields import AutoOneToOneField
@@ -33,7 +34,7 @@ class Game(TimeStampedModel):
 
 @python_2_unicode_compatible
 class UserState(TimeStampedModel):
-    user = AutoOneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+    user = AutoOneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE)
     STATE = Choices('s1', 't1', 'w1', 'g1', 'g2', 's2', 't2', 'w3', 's3', 't3', 'g31', 'g32', 'g33')
     state = models.CharField(choices=STATE, default=STATE.s1, max_length=20)
 
