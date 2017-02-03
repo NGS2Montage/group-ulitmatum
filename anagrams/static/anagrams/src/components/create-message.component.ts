@@ -25,12 +25,11 @@ import { ChatService } from '../services/chat.service';
 export class CreateMessage {    
     btnDisabled: boolean = false;    
     private message = {
-        author: 'peter',
+        type: 'chat',
         message: ''
     }
-    constructor(private chatService: ChatService) {
 
-    }
+    constructor(private chatService: ChatService) { }
 
     sendMsg() {
         console.log('new message from client: ', this.message);

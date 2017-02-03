@@ -18,11 +18,12 @@ export class ChatService {
         this.messages = <Subject<Message>>wsService
             .connect(CHAT_URL)
             .map((response: MessageEvent): Message => {
-                let data = JSON.parse(response.data);
+                console.log("here is a response?", response);
+                // let data = JSON.parse(response.data);
                 return {
-                    author: data.author,
-                    message: data.message,
-                    newDate : data.newDate
+                    author: 'author', //data.author,
+                    message: response.data,
+                    newDate : 'date' //data.newDate
                 }
             });
     }
