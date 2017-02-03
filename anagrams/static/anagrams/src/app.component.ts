@@ -1,18 +1,8 @@
 //our root app component
-import {Component, NgModule, OnInit} from '@angular/core'
-
-// Modules
-import { BrowserModule } from '@angular/platform-browser'
-import { FormsModule }   from '@angular/forms';
+import {Component, OnInit} from '@angular/core'
 
 // Services
-import { LetterService } from './letter.service';
-import { ChatService } from './chat.service';
-import { WebSocketService } from './websocket.service';
-
-// Components
-import { CreateMessage } from './create-message.component';
-import { ChatComponent } from './chat.component';
+import { LetterService } from './services/letter.service';
 
 
 @Component({
@@ -48,11 +38,3 @@ export class AppComponent implements OnInit {
     this.getLetters();
   }
 }
-
-@NgModule({
-  imports: [ BrowserModule, FormsModule ],
-  declarations: [ AppComponent, ChatComponent, CreateMessage ],
-  bootstrap: [ AppComponent ],
-  providers: [ LetterService, ChatService, WebSocketService ],
-})
-export class AppModule {}
