@@ -1,3 +1,5 @@
+import arrow
+import json
 import logging
 logger = logging.getLogger(__name__)
 
@@ -15,6 +17,12 @@ def chat_consumer(message):
         message=message.content['message'],
     )
     # Broadcast to listening sockets
+    reply = {
+        "type": "chat",
+        "message": message.content['message'],
+        "user": message.content['username'],
+        "date": arrow.now().format("YYYY-MM-DDTHH:mm:ssZ")
+    }
     Group("chat-%s" % room).send({
-        "text": message.content['message'],
+        "text": json.dumps(reply)
     })

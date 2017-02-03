@@ -3,7 +3,7 @@ logger = logging.getLogger(__name__)
 
 from channels import Group
 from channels.sessions import channel_session
-from channels.auth import channel_session_user_from_http
+from channels.auth import channel_session_user, channel_session_user_from_http
 
 from core.decorators import ws_json_payload
 
@@ -25,7 +25,7 @@ def anagrams_add(message):
 
 
 # Connected to websocket.receive
-@channel_session
+@channel_session_user
 @ws_json_payload
 def anagrams_message(message):
     logger.debug('got a message {}'.format(message.keys()))
