@@ -10,6 +10,7 @@ django-crispy-forms==1.6.1
 
 # Models
 django-model-utils==2.6
+django-reversion==2.0.8
 
 # Users
 django-allauth==0.30.0
