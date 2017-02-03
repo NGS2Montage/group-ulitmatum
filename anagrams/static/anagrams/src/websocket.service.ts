@@ -24,6 +24,10 @@ export class WebSocketService {
                 return ws.close.bind(ws);
             })
 
+        ws.onopen = () => {
+            ws.send("hello world");
+        }
+
         let observer = {
             next: (data: Object) => {
                 if (ws.readyState === WebSocket.OPEN) {
