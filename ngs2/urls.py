@@ -21,7 +21,7 @@ from core import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/', include('allauth.urls')),
+    url(r'^account/', include('core.urls')),
     url(r'^phase1/', include('anagrams.urls')),
     url(r'^phase2/', include('publicgoods.urls')),
     url(r'^phase3/', include('groupultimatums.urls')),
