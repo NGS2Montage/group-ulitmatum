@@ -17,6 +17,7 @@ def anagrams_add(message):
     logger.debug("Adding new websocket to room {}".format(room))
     # Accept connection
     message.reply_channel.send({"accept": True})
+    logger.debug("Here is a new websocket named {}".format(message.reply_channel))
 
     message.channel_session['room'] = room
 
@@ -56,4 +57,5 @@ def anagrams_message(message):
 # Connected to websocket.disconnect
 @channel_session
 def anagrams_disconnect(message):
+    logger.debug("A websocket named {} just left".format(message.reply_channel))
     Group("chat-%s" % message.channel_session['room']).discard(message.reply_channel)

@@ -17,9 +17,6 @@ var app = {
     requestLetter: function (event, model) {
         model.letter.request();
     },
-    outstanding: function (letter) {
-        return true;
-    },
 };
 
 //////////////////////////////////////////////////////////////
