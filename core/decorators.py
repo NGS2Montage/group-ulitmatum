@@ -1,3 +1,4 @@
+import arrow
 import json
 import logging
 logger = logging.getLogger(__name__)
@@ -7,9 +8,10 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from channels import Channel
+from annoying.functions import get_object_or_None
+from channels import Group
 
-from .models import Game
+from .models import ChatMessage, Game, WebSocket
 
 
 def game_state_required(user_state, game_state, *dec_args, **dec_kwargs):
@@ -38,9 +40,30 @@ def game_state_required(user_state, game_state, *dec_args, **dec_kwargs):
     return _decorator
 
 
+def persistent_ws(function=None):
+    def _decorator(consumer_func):
+        def _persist_websocket(message, *args, **kwargs):
+            logger.debug("In the decorator, yo")
+
+            ws = get_object_or_None(WebSocket, user=message.user)
+            if ws is not None:
+                ws.reply_channel = message.reply_channel.name
+                ws.save()
+            else:
+                WebSocket.objects.create(user=message.user, reply_channel=message.reply_channel.name)
+
+            consumer_func(message)
+        return _persist_websocket
+
+    if function is None:
+        return _decorator
+    else:
+        return _decorator(function)
+
+
 def ws_json_payload(function=None):
     def _decorator(consumer_func):
-        def _view(message, *args, **kwargs):
+        def _json_converter(message, *args, **kwargs):
             logger.debug("In the decorator, yo")
 
             json_payload = None
@@ -54,20 +77,29 @@ def ws_json_payload(function=None):
                 message['json'] = json_payload
 
                 if 'type' in message['json'] and message['json']['type'] == 'chat':
-                    logger.debug("This message was a chat, send it off ({}) {}".format(message.channel_session['room'], message['json']['message']))
-                    Channel("chat-messages").send({
-                        "room": message.channel_session['room'],
+                    ChatMessage.objects.create(
+                        room=message.channel_session['room'],
+                        message=message['json']['message'],
+                        user=message.user
+                    )
+                    # Broadcast to listening sockets
+                    reply = {
+                        "type": "chat",
                         "message": message['json']['message'],
-                        "username": message.user.username
+                        "user": message.user.username,
+                        "date": arrow.now().format("YYYY-MM-DDTHH:mm:ssZ")
+                    }
+                    Group("chat-%s" % message.channel_session['room']).send({
+                        "text": json.dumps(reply)
                     })
+
                     return  # return here - do not pass on to consumer
 
             logger.debug("This message was not a chat, send it on")
             consumer_func(message)
-        return _view
+        return _json_converter
 
     if function is None:
         return _decorator
     else:
         return _decorator(function)
-

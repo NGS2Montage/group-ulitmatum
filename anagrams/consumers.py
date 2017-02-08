@@ -6,18 +6,18 @@ from channels import Group
 from channels.sessions import channel_session
 from channels.auth import channel_session_user, channel_session_user_from_http
 
-from core.decorators import ws_json_payload
+from core.decorators import ws_json_payload, persistent_ws
 from .models import UserLetter
 
 
 # Connected to websocket.connect
 @channel_session_user_from_http
+@persistent_ws
 def anagrams_add(message):
     room = "room"
     logger.debug("Adding new websocket to room {}".format(room))
     # Accept connection
     message.reply_channel.send({"accept": True})
-    logger.debug("Here is a new websocket named {}".format(message.reply_channel))
 
     message.channel_session['room'] = room
 
