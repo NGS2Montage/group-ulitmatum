@@ -4,6 +4,7 @@ var app = {
     user: {
         name: "",
         letters: [],
+        requests: [],
     },
     newChat: "",
     letters: [],
@@ -17,27 +18,31 @@ var app = {
     requestLetter: function (event, model) {
         model.letter.request();
     },
+    approveRequest: function (event, model) {
+        model.request.approve();
+    }
 };
 
 //////////////////////////////////////////////////////////////
-// Letter
+// RemoteLetter
 //////////////////////////////////////////////////////////////
-function Letter(letter, owner) {
+function RemoteLetter(letter, owner) {
     this.letter = letter;
     this.owner = owner;
     this.requested = false;
+    this.received = false;
 };
 
-Letter.prototype.toString = function () {
+RemoteLetter.prototype.toString = function () {
     return this.letter;
 };
 
-Letter.prototype.request = function () {
+RemoteLetter.prototype.request = function () {
     if (this.requested) {
         console.log(this.letter, "is already requested from", this.owner, " - ignoring");
         return false;
     }
-    this.requested = true;
+    this.requested = true; // This is optimistic, server might tell us this is illegal...
     var message = {
         type: "request-letter",
         from_user: this.owner,
@@ -47,8 +52,33 @@ Letter.prototype.request = function () {
     return true;
 };
 
-rivets.formatters.letterRequest = function(letter){
-  return letter.letter + " from " + letter.owner;
+rivets.formatters.letterRequest = function(remoteLetter){
+    return remoteLetter.letter + " from " + remoteLetter.owner;
+};
+
+//////////////////////////////////////////////////////////////
+// LetterRequest
+//////////////////////////////////////////////////////////////
+function LetterRequest(letter, requester) {
+    this.letter = letter;
+    this.requester = requester;
+    this.approved = false;
+};
+
+LetterRequest.prototype.approve = function () {
+    var message = {
+        type: "request-approved",
+        letter: this.letter,
+        requester: this.requester,
+    };
+    socket.sendJSON(message);
+
+    // Remove this request from the page
+    app.user.requests.splice(app.user.requests.indexOf(this), 1);
+}
+
+rivets.formatters.requestedLetter = function(letterRequest){
+    return letterRequest.letter + " by " + letterRequest.requester;
 };
 
 
@@ -58,7 +88,7 @@ rivets.formatters.letterRequest = function(letter){
 function Friend(friend) {
     this.name = friend.name;
     this.letters = friend.letters.map(function (letter) {
-        var el = new Letter(letter, friend.name);
+        var el = new RemoteLetter(letter, friend.name);
         app.letters.push(el);
         return el;
     });
@@ -93,6 +123,26 @@ socket.onmessage = function(e) {
         app.friends = message.friends.map(function (friend) {
             return new Friend(friend);
         });
+    }
+    if (message.type === "request-letter") {
+        if (!message.legal) {
+            var illegalRequest = app.letters.find(function (letter) {
+                return letter.owner === message.from_user && letter.letter === message.letter;
+            });
+            illegalRequest.requested = false;
+        }
+    }
+    if (message.type === "letter-requested") {
+        if (app.user.letters.includes(message['letter'])) {
+            app.user.requests.push(new LetterRequest(message['letter'], message['by_user']));
+        }
+    }
+    if (message.type === "request-approved") {
+        var remoteLetter = app.letters.find(function (letter) {
+            return letter.letter === message.letter && letter.owner === message.lender;
+        });
+        remoteLetter.requested = false;
+        remoteLetter.received = true;
     }
 }
 

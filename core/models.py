@@ -43,6 +43,15 @@ class UserState(TimeStampedModel):
 
 
 @python_2_unicode_compatible
+class Friend(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user')
+    friend = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='friend')
+
+    def __str__(self):
+        return u'user={} friend={}'.format(self.user.username, self.friend.username)
+
+
+@python_2_unicode_compatible
 class ChatMessage(TimeStampedModel):
     message = models.TextField()
     room = models.CharField(max_length=200)

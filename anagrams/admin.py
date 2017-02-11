@@ -1,8 +1,15 @@
 from django.contrib import admin
-from .models import UserLetter
+
+from reversion.admin import VersionAdmin
+
+from .models import UserLetter, LetterTransaction
 
 
-class UserLetterAdmin(admin.ModelAdmin):
+@admin.register(LetterTransaction)
+class LetterTransactionAdmin(VersionAdmin):
+    pass
+
+
+@admin.register(UserLetter)
+class UserLetterAdmin(VersionAdmin):
     list_display = ('letter', 'user')
-
-admin.site.register(UserLetter, UserLetterAdmin)

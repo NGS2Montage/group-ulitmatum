@@ -64,8 +64,6 @@ def persistent_ws(function=None):
 def ws_json_payload(function=None):
     def _decorator(consumer_func):
         def _json_converter(message, *args, **kwargs):
-            logger.debug("In the decorator, yo")
-
             json_payload = None
 
             try:
@@ -89,13 +87,12 @@ def ws_json_payload(function=None):
                         "user": message.user.username,
                         "date": arrow.now().format("YYYY-MM-DDTHH:mm:ssZ")
                     }
-                    Group("chat-%s" % message.channel_session['room']).send({
+                    Group("allchat").send({
                         "text": json.dumps(reply)
                     })
 
                     return  # return here - do not pass on to consumer
 
-            logger.debug("This message was not a chat, send it on")
             consumer_func(message)
         return _json_converter
 

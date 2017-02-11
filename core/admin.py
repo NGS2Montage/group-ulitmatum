@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from reversion.admin import VersionAdmin
 
-from .models import Game, UserState, ChatMessage, WebSocket
+from .models import Game, UserState, ChatMessage, WebSocket, Friend
 
 
 @admin.register(Game)
@@ -11,8 +11,13 @@ class GameAdmin(VersionAdmin):
 
 
 @admin.register(UserState)
-class UserStateAdmin(admin.ModelAdmin):
+class UserStateAdmin(VersionAdmin):
     list_display = ('state', 'user')
+
+
+@admin.register(Friend)
+class FriendAdmin(admin.ModelAdmin):
+    list_display = ('user', 'friend')
 
 
 @admin.register(ChatMessage)

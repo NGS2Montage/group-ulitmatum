@@ -62,11 +62,14 @@
             </ul>
             Requested by your friends:
             <ul>
-                
+                <li rv-each-request="app.user.requests"
+                    rv-on-click="app.approveRequest">
+                    {request | requestedLetter < request.requester}
+                </li>
             </ul>
             Received from your friends:
             <ul>
-                <li rv-each-letter="app.letters" rv-show="letter.received">{letter | letterRequest}</li>                
+                <li rv-each-letter="app.letters" rv-show="letter.received">{letter | letterRequest}</li>
             </ul>
             Requested by you and waiting for response:
             <ul>
