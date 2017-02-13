@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}{% block head_title %}Phase III{% endblock head_title %}{% endblock title %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'groupultimatums/css/initial.css' %}"></link>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div>Yo, groupultimatums template loaded over here.</div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script src="{% static 'groupultimatums/js/initial.js' %}"></script>
+{% endblock %}

@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',  # required for allauth
     'django_extensions',
+    'reversion',  # for tracking changes to models
 
     'crispy_forms',  # Form layouts
 

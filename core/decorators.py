@@ -58,6 +58,7 @@ def ws_json_payload(function=None):
                     Channel("chat-messages").send({
                         "room": message.channel_session['room'],
                         "message": message['json']['message'],
+                        "username": message.user.username
                     })
                     return  # return here - do not pass on to consumer
 

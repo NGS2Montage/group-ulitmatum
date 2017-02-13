@@ -1,8 +1,19 @@
 from django.contrib import admin
-from .models import Game
+
+from reversion.admin import VersionAdmin
+
+from .models import Game, UserState, ChatMessage
 
 
-class GameAdmin(admin.ModelAdmin):
+@admin.register(Game)
+class GameAdmin(VersionAdmin):
+    list_display = ('state', )
+
+
+@admin.register(UserState)
+class UserStateAdmin(admin.ModelAdmin):
+    list_display = ('state', 'user')
+
+@admin.register(ChatMessage)
+class ChatMessageAdmin(admin.ModelAdmin):
     pass
-
-admin.site.register(Game, GameAdmin)
