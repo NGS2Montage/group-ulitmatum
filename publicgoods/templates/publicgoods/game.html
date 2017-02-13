@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}{% block head_title %}{% endblock head_title %}{% endblock title %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" href='{% static 'publicgoods/css/game.css' %}'></link>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- 
+        Code here
+     -->
+     <form action="/phase2/public-goods/" method="POST">
+        {% csrf_token %}
+
+        <input type="number" name="dollar_amt" step="any">
+
+        <input type="submit">
+     </form>
+     {{ d_amt }}
+     <p> {{ error }} </p>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script src="{% static 'publicgoods/js/game.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,335 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+0001_initial.py	core/migrations/0001_initial.py	1;"	kind:file	line:1
+0002_auto_20170118_1550.py	core/migrations/0002_auto_20170118_1550.py	1;"	kind:file	line:1
+0003_auto_20170118_1803.py	core/migrations/0003_auto_20170118_1803.py	1;"	kind:file	line:1
+0004_auto_20170120_1821.py	core/migrations/0004_auto_20170120_1821.py	1;"	kind:file	line:1
+0005_chatmessage.py	core/migrations/0005_chatmessage.py	1;"	kind:file	line:1
+ACCOUNT_ADAPTER	ngs2/settings.py	/^ACCOUNT_ADAPTER = 'core.users.adapters.AccountAdapter'$/;"	kind:variable	line:201
+ACCOUNT_ALLOW_REGISTRATION	ngs2/settings.py	/^ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', False)$/;"	kind:variable	line:200
+ACCOUNT_AUTHENTICATION_METHOD	ngs2/settings.py	/^ACCOUNT_AUTHENTICATION_METHOD = 'username'$/;"	kind:variable	line:196
+ACCOUNT_EMAIL_REQUIRED	ngs2/settings.py	/^ACCOUNT_EMAIL_REQUIRED = True$/;"	kind:variable	line:197
+ACCOUNT_EMAIL_VERIFICATION	ngs2/settings.py	/^ACCOUNT_EMAIL_VERIFICATION = 'optional'$/;"	kind:variable	line:198
+ADMINS	ngs2/settings.py	/^ADMINS = ($/;"	kind:variable	line:124
+ALLOWED_HOSTS	ngs2/settings.py	/^ALLOWED_HOSTS = possible_hosts.split(',') if possible_hosts is not None else []$/;"	kind:variable	line:36
+AUTH_PASSWORD_VALIDATORS	ngs2/settings.py	/^AUTH_PASSWORD_VALIDATORS = [$/;"	kind:variable	line:147
+AccountAdapter	core/users/adapters.py	/^class AccountAdapter(DefaultAccountAdapter):$/;"	kind:class	line:7
+AnagramsConfig	anagrams/apps.py	/^class AnagramsConfig(AppConfig):$/;"	kind:class	line:4
+AppConfig	anagrams/apps.py	/^from django.apps import AppConfig$/;"	kind:namespace	line:1
+AppConfig	core/apps.py	/^from django.apps import AppConfig$/;"	kind:namespace	line:3
+AppConfig	groupultimatums/apps.py	/^from django.apps import AppConfig$/;"	kind:namespace	line:1
+AppConfig	publicgoods/apps.py	/^from django.apps import AppConfig$/;"	kind:namespace	line:1
+AppConfig	surveys/apps.py	/^from django.apps import AppConfig$/;"	kind:namespace	line:1
+AutoOneToOneField	core/models.py	/^from annoying.fields import AutoOneToOneField$/;"	kind:namespace	line:7
+BASE_DIR	ngs2/settings.py	/^BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))$/;"	kind:variable	line:18
+CHANNEL_LAYERS	ngs2/settings.py	/^CHANNEL_LAYERS = {$/;"	kind:variable	line:211
+Channel	core/decorators.py	/^from channels import Channel$/;"	kind:namespace	line:10
+ChatMessage	core/consumers.py	/^from .models import ChatMessage$/;"	kind:namespace	line:6
+ChatMessage	core/models.py	/^class ChatMessage(TimeStampedModel):$/;"	kind:class	line:45
+Choices	core/models.py	/^from model_utils import Choices$/;"	kind:namespace	line:8
+CoreConfig	core/apps.py	/^class CoreConfig(AppConfig):$/;"	kind:class	line:6
+DATABASES	ngs2/settings.py	/^DATABASES = {$/;"	kind:variable	line:136
+DEBUG	ngs2/settings.py	/^DEBUG = env.bool('DJANGO_DEBUG', False)$/;"	kind:variable	line:32
+DEBUG_TOOLBAR_PANELS	ngs2/settings.py	/^    DEBUG_TOOLBAR_PANELS = [$/;"	kind:variable	line:82
+DefaultAccountAdapter	core/users/adapters.py	/^from allauth.account.adapter import DefaultAccountAdapter$/;"	kind:namespace	line:3
+DefaultSocialAccountAdapter	core/users/adapters.py	/^from allauth.socialaccount.adapter import DefaultSocialAccountAdapter$/;"	kind:namespace	line:4
+Game	core/admin.py	/^from .models import Game$/;"	kind:namespace	line:2
+Game	core/decorators.py	/^from .models import Game$/;"	kind:namespace	line:12
+Game	core/models.py	/^class Game(TimeStampedModel):$/;"	kind:class	line:15
+Game	core/views.py	/^from .models import Game$/;"	kind:namespace	line:5
+GameAdmin	core/admin.py	/^class GameAdmin(admin.ModelAdmin):$/;"	kind:class	line:5
+GameManager	core/managers.py	/^class GameManager(models.Manager):$/;"	kind:class	line:4
+GameManager	core/models.py	/^from .managers import GameManager$/;"	kind:namespace	line:11
+Group	anagrams/consumers.py	/^from channels import Group$/;"	kind:namespace	line:4
+Group	core/consumers.py	/^from channels import Group$/;"	kind:namespace	line:4
+GroupultimatumsConfig	groupultimatums/apps.py	/^class GroupultimatumsConfig(AppConfig):$/;"	kind:class	line:4
+HttpResponseRedirect	core/decorators.py	/^from django.http import HttpResponseRedirect$/;"	kind:namespace	line:7
+INSTALLED_APPS	ngs2/settings.py	/^INSTALLED_APPS = ($/;"	kind:variable	line:41
+INTERNAL_IPS	ngs2/settings.py	/^INTERNAL_IPS = ['127.0.0.1'] if DEBUG else []$/;"	kind:variable	line:33
+LANGUAGE_CODE	ngs2/settings.py	/^LANGUAGE_CODE = 'en-us'$/;"	kind:variable	line:166
+LOGGING	ngs2/settings.py	/^LOGGING = {$/;"	kind:variable	line:221
+MANAGERS	ngs2/settings.py	/^MANAGERS = ADMINS$/;"	kind:variable	line:130
+MIDDLEWARE	ngs2/settings.py	/^MIDDLEWARE = [$/;"	kind:variable	line:68
+Migration	core/migrations/0001_initial.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:12
+Migration	core/migrations/0002_auto_20170118_1550.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:11
+Migration	core/migrations/0003_auto_20170118_1803.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:8
+Migration	core/migrations/0004_auto_20170120_1821.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:8
+Migration	core/migrations/0005_chatmessage.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:10
+PublicgoodsConfig	publicgoods/apps.py	/^class PublicgoodsConfig(AppConfig):$/;"	kind:class	line:4
+ROOT_DIR	ngs2/settings.py	/^ROOT_DIR = environ.Path(__file__) - 2  # (phoenixdash\/phoenixdash\/settings.py - 2 = phoenixdash\/)$/;"	kind:variable	line:19
+ROOT_URLCONF	ngs2/settings.py	/^ROOT_URLCONF = 'ngs2.urls'$/;"	kind:variable	line:99
+SECRET_KEY	ngs2/settings.py	/^SECRET_KEY = env.str('DJANGO_SECRET_KEY')$/;"	kind:variable	line:29
+SITE_ID	ngs2/settings.py	/^SITE_ID = 1$/;"	kind:variable	line:191
+SOCIALACCOUNT_ADAPTER	ngs2/settings.py	/^SOCIALACCOUNT_ADAPTER = 'core.users.adapters.SocialAccountAdapter'$/;"	kind:variable	line:202
+STATE	core/models.py	/^    STATE = Choices('s1', 't1', 'w1', 'g1', 'g2', 's2', 't2', 'w3', 's3', 't3', 'g31', 'g32', 'g33')$/;"	kind:variable	line:37
+STATE	core/models.py	/^    STATE = Choices('w1', 'g1', 'w2', 'g2', 'w3', 'g31', 'g32', 'g33')$/;"	kind:variable	line:16
+STATICFILES_DIRS	ngs2/settings.py	/^STATICFILES_DIRS = ($/;"	kind:variable	line:180
+STATIC_URL	ngs2/settings.py	/^STATIC_URL = '\/static\/'$/;"	kind:variable	line:186
+SocialAccountAdapter	core/users/adapters.py	/^class SocialAccountAdapter(DefaultSocialAccountAdapter):$/;"	kind:class	line:12
+SurveysConfig	surveys/apps.py	/^class SurveysConfig(AppConfig):$/;"	kind:class	line:4
+TEMPLATES	ngs2/settings.py	/^TEMPLATES = [$/;"	kind:variable	line:101
+TIME_ZONE	ngs2/settings.py	/^TIME_ZONE = 'UTC'$/;"	kind:variable	line:168
+TestCase	anagrams/tests.py	/^from django.test import TestCase$/;"	kind:namespace	line:1
+TestCase	core/tests.py	/^from django.test import TestCase$/;"	kind:namespace	line:1
+TestCase	groupultimatums/tests.py	/^from django.test import TestCase$/;"	kind:namespace	line:1
+TestCase	publicgoods/tests.py	/^from django.test import TestCase$/;"	kind:namespace	line:1
+TestCase	surveys/tests.py	/^from django.test import TestCase$/;"	kind:namespace	line:1
+TimeStampedModel	core/models.py	/^from model_utils.models import TimeStampedModel$/;"	kind:namespace	line:9
+USE_I18N	ngs2/settings.py	/^USE_I18N = True$/;"	kind:variable	line:170
+USE_L10N	ngs2/settings.py	/^USE_L10N = True$/;"	kind:variable	line:172
+USE_TZ	ngs2/settings.py	/^USE_TZ = True$/;"	kind:variable	line:174
+User	core/models.py	/^from django.contrib.auth.models import User$/;"	kind:namespace	line:4
+UserState	core/models.py	/^class UserState(TimeStampedModel):$/;"	kind:class	line:35
+WSGI_APPLICATION	ngs2/settings.py	/^WSGI_APPLICATION = 'ngs2.wsgi.application'$/;"	kind:variable	line:121
+__init__.py	anagrams/__init__.py	1;"	kind:file	line:1
+__init__.py	anagrams/migrations/__init__.py	1;"	kind:file	line:1
+__init__.py	core/__init__.py	1;"	kind:file	line:1
+__init__.py	core/migrations/__init__.py	1;"	kind:file	line:1
+__init__.py	core/users/__init__.py	1;"	kind:file	line:1
+__init__.py	groupultimatums/__init__.py	1;"	kind:file	line:1
+__init__.py	groupultimatums/migrations/__init__.py	1;"	kind:file	line:1
+__init__.py	ngs2/__init__.py	1;"	kind:file	line:1
+__init__.py	publicgoods/__init__.py	1;"	kind:file	line:1
+__init__.py	publicgoods/migrations/__init__.py	1;"	kind:file	line:1
+__init__.py	surveys/__init__.py	1;"	kind:file	line:1
+__init__.py	surveys/migrations/__init__.py	1;"	kind:file	line:1
+__str__	core/models.py	/^    def __str__(self):$/;"	kind:member	line:20
+__str__	core/models.py	/^    def __str__(self):$/;"	kind:member	line:40
+__str__	core/models.py	/^    def __str__(self):$/;"	kind:member	line:49
+_decorator	core/decorators.py	/^    def _decorator(consumer_func):$/;"	kind:function	line:42
+_decorator	core/decorators.py	/^    def _decorator(view_func):$/;"	kind:function	line:16
+_view	core/decorators.py	/^        def _view(message, *args, **kwargs):$/;"	kind:function	line:43
+_view	core/decorators.py	/^        def _view(request, *args, **kwargs):$/;"	kind:function	line:17
+adapters.py	core/users/adapters.py	1;"	kind:file	line:1
+admin	anagrams/admin.py	/^from django.contrib import admin$/;"	kind:namespace	line:1
+admin	core/admin.py	/^from django.contrib import admin$/;"	kind:namespace	line:1
+admin	groupultimatums/admin.py	/^from django.contrib import admin$/;"	kind:namespace	line:1
+admin	ngs2/urls.py	/^from django.contrib import admin$/;"	kind:namespace	line:18
+admin	publicgoods/admin.py	/^from django.contrib import admin$/;"	kind:namespace	line:1
+admin	surveys/admin.py	/^from django.contrib import admin$/;"	kind:namespace	line:1
+admin.py	anagrams/admin.py	1;"	kind:file	line:1
+admin.py	core/admin.py	1;"	kind:file	line:1
+admin.py	groupultimatums/admin.py	1;"	kind:file	line:1
+admin.py	publicgoods/admin.py	1;"	kind:file	line:1
+admin.py	surveys/admin.py	1;"	kind:file	line:1
+advance_to_next_state	core/models.py	/^    def advance_to_next_state(self):$/;"	kind:member	line:23
+anagrams_add	anagrams/consumers.py	/^def anagrams_add(message):$/;"	kind:function	line:13
+anagrams_add	core/routing.py	/^from anagrams.consumers import anagrams_add, anagrams_message, anagrams_disconnect$/;"	kind:namespace	line:2
+anagrams_disconnect	anagrams/consumers.py	/^def anagrams_disconnect(message):$/;"	kind:function	line:34
+anagrams_disconnect	core/routing.py	/^from anagrams.consumers import anagrams_add, anagrams_message, anagrams_disconnect$/;"	kind:namespace	line:2
+anagrams_message	anagrams/consumers.py	/^def anagrams_message(message):$/;"	kind:function	line:28
+anagrams_message	core/routing.py	/^from anagrams.consumers import anagrams_add, anagrams_message, anagrams_disconnect$/;"	kind:namespace	line:2
+anagrams_routing	core/routing.py	/^anagrams_routing = [$/;"	kind:variable	line:5
+annoying	core/migrations/0002_auto_20170118_1550.py	/^import annoying.fields$/;"	kind:namespace	line:5
+application	ngs2/wsgi.py	/^application = get_wsgi_application()$/;"	kind:variable	line:16
+apps.py	anagrams/apps.py	1;"	kind:file	line:1
+apps.py	core/apps.py	1;"	kind:file	line:1
+apps.py	groupultimatums/apps.py	1;"	kind:file	line:1
+apps.py	publicgoods/apps.py	1;"	kind:file	line:1
+apps.py	surveys/apps.py	1;"	kind:file	line:1
+channel_routing	core/routing.py	/^channel_routing = [$/;"	kind:variable	line:15
+channel_session	anagrams/consumers.py	/^from channels.sessions import channel_session$/;"	kind:namespace	line:5
+channel_session_user_from_http	anagrams/consumers.py	/^from channels.auth import channel_session_user_from_http$/;"	kind:namespace	line:6
+chat_consumer	core/consumers.py	/^def chat_consumer(message):$/;"	kind:function	line:9
+chat_consumer	core/routing.py	/^from .consumers import chat_consumer$/;"	kind:namespace	line:3
+chat_routing	core/routing.py	/^chat_routing = [$/;"	kind:variable	line:11
+consumers.py	anagrams/consumers.py	1;"	kind:file	line:1
+consumers.py	core/consumers.py	1;"	kind:file	line:1
+db	core/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:7
+db	core/migrations/0002_auto_20170118_1550.py	/^import django.db.models.deletion$/;"	kind:namespace	line:8
+debug_toolbar	ngs2/urls.py	/^    import debug_toolbar$/;"	kind:namespace	line:32
+decorators.py	core/decorators.py	1;"	kind:file	line:1
+deletion	core/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:7
+deletion	core/migrations/0002_auto_20170118_1550.py	/^import django.db.models.deletion$/;"	kind:namespace	line:8
+dependencies	core/migrations/0001_initial.py	/^    dependencies = [$/;"	kind:variable	line:16
+dependencies	core/migrations/0002_auto_20170118_1550.py	/^    dependencies = [$/;"	kind:variable	line:13
+dependencies	core/migrations/0003_auto_20170118_1803.py	/^    dependencies = [$/;"	kind:variable	line:10
+dependencies	core/migrations/0004_auto_20170120_1821.py	/^    dependencies = [$/;"	kind:variable	line:10
+dependencies	core/migrations/0005_chatmessage.py	/^    dependencies = [$/;"	kind:variable	line:12
+django	core/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:7
+django	core/migrations/0001_initial.py	/^import django.utils.timezone$/;"	kind:namespace	line:8
+django	core/migrations/0002_auto_20170118_1550.py	/^import django.db.models.deletion$/;"	kind:namespace	line:8
+django	core/migrations/0005_chatmessage.py	/^import django.utils.timezone$/;"	kind:namespace	line:6
+django	manage.py	/^            import django$/;"	kind:namespace	line:14
+env	ngs2/settings.py	/^env = environ.Env()$/;"	kind:variable	line:21
+environ	ngs2/settings.py	/^import environ$/;"	kind:namespace	line:14
+execute_from_command_line	manage.py	/^        from django.core.management import execute_from_command_line$/;"	kind:namespace	line:8
+field	core/migrations/0002_auto_20170118_1550.py	/^            field=annoying.fields.AutoOneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL),$/;"	kind:variable	line:25
+field	core/migrations/0003_auto_20170118_1803.py	/^            field=models.CharField(choices=[('s1', 's1'), ('t1', 't1'), ('w1', 'w1'), ('g1', 'g1')], default='s1', max_length=20),$/;"	kind:variable	line:18
+field	core/migrations/0004_auto_20170120_1821.py	/^            field=models.CharField(choices=[('s1', 's1'), ('t1', 't1'), ('w1', 'w1'), ('g1', 'g1'), ('g2', 'g2'), ('s2', 's2'), ('t2', 't2'), ('w3', 'w3'), ('s3', 's3'), ('t3', 't3'), ('g31', 'g31'), ('g32', 'g32'), ('g33', 'g33')], default='s1', max_length=20),$/;"	kind:variable	line:23
+field	core/migrations/0004_auto_20170120_1821.py	/^            field=models.CharField(choices=[('w1', 'w1'), ('g1', 'g1'), ('w2', 'w2'), ('g2', 'g2'), ('w3', 'w3'), ('g31', 'g31'), ('g32', 'g32'), ('g33', 'g33')], default='w1', max_length=20),$/;"	kind:variable	line:18
+fields	core/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:23
+fields	core/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:35
+fields	core/migrations/0001_initial.py	/^import model_utils.fields$/;"	kind:namespace	line:9
+fields	core/migrations/0002_auto_20170118_1550.py	/^import annoying.fields$/;"	kind:namespace	line:5
+fields	core/migrations/0005_chatmessage.py	/^            fields=[$/;"	kind:variable	line:19
+fields	core/migrations/0005_chatmessage.py	/^import model_utils.fields$/;"	kind:namespace	line:7
+game	anagrams/views.py	/^def game(request):$/;"	kind:function	line:20
+game	publicgoods/views.py	/^def game(request):$/;"	kind:function	line:21
+game_final	groupultimatums/views.py	/^def game_final(request):$/;"	kind:function	line:38
+game_initial	groupultimatums/views.py	/^def game_initial(request):$/;"	kind:function	line:20
+game_state_required	anagrams/views.py	/^from core.decorators import game_state_required$/;"	kind:namespace	line:5
+game_state_required	core/decorators.py	/^def game_state_required(user_state, game_state, *dec_args, **dec_kwargs):$/;"	kind:function	line:15
+game_state_required	groupultimatums/views.py	/^from core.decorators import game_state_required$/;"	kind:namespace	line:5
+game_state_required	publicgoods/views.py	/^from core.decorators import game_state_required$/;"	kind:namespace	line:5
+game_voting	groupultimatums/views.py	/^def game_voting(request):$/;"	kind:function	line:29
+get_current_game	core/managers.py	/^    def get_current_game(self):$/;"	kind:member	line:5
+get_wsgi_application	ngs2/wsgi.py	/^from django.core.wsgi import get_wsgi_application$/;"	kind:namespace	line:12
+include	core/routing.py	/^from channels.routing import route, include$/;"	kind:namespace	line:1
+include	ngs2/urls.py	/^from django.conf.urls import include, url$/;"	kind:namespace	line:17
+initial	core/migrations/0001_initial.py	/^    initial = True$/;"	kind:variable	line:14
+is_open_for_signup	core/users/adapters.py	/^    def is_open_for_signup(self, request):$/;"	kind:member	line:8
+is_open_for_signup	core/users/adapters.py	/^    def is_open_for_signup(self, request, sociallogin):$/;"	kind:member	line:13
+is_valid_number	publicgoods/views.py	/^    def is_valid_number(s):$/;"	kind:function	line:23
+json	core/decorators.py	/^import json$/;"	kind:namespace	line:1
+logger	anagrams/consumers.py	/^logger = logging.getLogger(__name__)$/;"	kind:variable	line:2
+logger	core/consumers.py	/^logger = logging.getLogger(__name__)$/;"	kind:variable	line:2
+logger	core/decorators.py	/^logger = logging.getLogger(__name__)$/;"	kind:variable	line:3
+logging	anagrams/consumers.py	/^import logging$/;"	kind:namespace	line:1
+logging	core/consumers.py	/^import logging$/;"	kind:namespace	line:1
+logging	core/decorators.py	/^import logging$/;"	kind:namespace	line:2
+login_required	anagrams/views.py	/^from django.contrib.auth.decorators import login_required$/;"	kind:namespace	line:1
+login_required	core/views.py	/^from django.contrib.auth.decorators import login_required$/;"	kind:namespace	line:1
+login_required	groupultimatums/views.py	/^from django.contrib.auth.decorators import login_required$/;"	kind:namespace	line:1
+login_required	publicgoods/views.py	/^from django.contrib.auth.decorators import login_required$/;"	kind:namespace	line:1
+manage.py	manage.py	1;"	kind:file	line:1
+managers.py	core/managers.py	1;"	kind:file	line:1
+message	core/models.py	/^    message = models.TextField()$/;"	kind:variable	line:46
+messages	core/decorators.py	/^                from django.contrib import messages$/;"	kind:namespace	line:31
+migrations	core/migrations/0001_initial.py	/^from django.db import migrations, models$/;"	kind:namespace	line:6
+migrations	core/migrations/0002_auto_20170118_1550.py	/^from django.db import migrations$/;"	kind:namespace	line:7
+migrations	core/migrations/0003_auto_20170118_1803.py	/^from django.db import migrations, models$/;"	kind:namespace	line:5
+migrations	core/migrations/0004_auto_20170120_1821.py	/^from django.db import migrations, models$/;"	kind:namespace	line:5
+migrations	core/migrations/0005_chatmessage.py	/^from django.db import migrations, models$/;"	kind:namespace	line:5
+model_name	core/migrations/0002_auto_20170118_1550.py	/^            model_name='userstate',$/;"	kind:variable	line:19
+model_name	core/migrations/0002_auto_20170118_1550.py	/^            model_name='userstate',$/;"	kind:variable	line:23
+model_name	core/migrations/0003_auto_20170118_1803.py	/^            model_name='userstate',$/;"	kind:variable	line:16
+model_name	core/migrations/0004_auto_20170120_1821.py	/^            model_name='game',$/;"	kind:variable	line:16
+model_name	core/migrations/0004_auto_20170120_1821.py	/^            model_name='userstate',$/;"	kind:variable	line:21
+model_utils	core/migrations/0001_initial.py	/^import model_utils.fields$/;"	kind:namespace	line:9
+model_utils	core/migrations/0005_chatmessage.py	/^import model_utils.fields$/;"	kind:namespace	line:7
+models	anagrams/models.py	/^from django.db import models$/;"	kind:namespace	line:3
+models	core/managers.py	/^from django.db import models$/;"	kind:namespace	line:1
+models	core/migrations/0001_initial.py	/^from django.db import migrations, models$/;"	kind:namespace	line:6
+models	core/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:7
+models	core/migrations/0002_auto_20170118_1550.py	/^import django.db.models.deletion$/;"	kind:namespace	line:8
+models	core/migrations/0003_auto_20170118_1803.py	/^from django.db import migrations, models$/;"	kind:namespace	line:5
+models	core/migrations/0004_auto_20170120_1821.py	/^from django.db import migrations, models$/;"	kind:namespace	line:5
+models	core/migrations/0005_chatmessage.py	/^from django.db import migrations, models$/;"	kind:namespace	line:5
+models	core/models.py	/^from django.db import models$/;"	kind:namespace	line:3
+models	groupultimatums/models.py	/^from django.db import models$/;"	kind:namespace	line:3
+models	publicgoods/models.py	/^from django.db import models$/;"	kind:namespace	line:3
+models	surveys/models.py	/^from django.db import models$/;"	kind:namespace	line:3
+models.py	anagrams/models.py	1;"	kind:file	line:1
+models.py	core/models.py	1;"	kind:file	line:1
+models.py	groupultimatums/models.py	1;"	kind:file	line:1
+models.py	publicgoods/models.py	1;"	kind:file	line:1
+models.py	surveys/models.py	1;"	kind:file	line:1
+name	anagrams/apps.py	/^    name = 'anagrams'$/;"	kind:variable	line:5
+name	core/apps.py	/^    name = 'core'$/;"	kind:variable	line:7
+name	core/migrations/0001_initial.py	/^            name='Game',$/;"	kind:variable	line:22
+name	core/migrations/0001_initial.py	/^            name='UserState',$/;"	kind:variable	line:34
+name	core/migrations/0002_auto_20170118_1550.py	/^            name='id',$/;"	kind:variable	line:20
+name	core/migrations/0002_auto_20170118_1550.py	/^            name='user',$/;"	kind:variable	line:24
+name	core/migrations/0003_auto_20170118_1803.py	/^            name='state',$/;"	kind:variable	line:17
+name	core/migrations/0004_auto_20170120_1821.py	/^            name='state',$/;"	kind:variable	line:17
+name	core/migrations/0004_auto_20170120_1821.py	/^            name='state',$/;"	kind:variable	line:22
+name	core/migrations/0005_chatmessage.py	/^            name='ChatMessage',$/;"	kind:variable	line:18
+name	groupultimatums/apps.py	/^    name = 'groupultimatums'$/;"	kind:variable	line:5
+name	publicgoods/apps.py	/^    name = 'publicgoods'$/;"	kind:variable	line:5
+name	surveys/apps.py	/^    name = 'surveys'$/;"	kind:variable	line:5
+objects	core/models.py	/^    objects = GameManager()$/;"	kind:variable	line:18
+operations	core/migrations/0001_initial.py	/^    operations = [$/;"	kind:variable	line:20
+operations	core/migrations/0002_auto_20170118_1550.py	/^    operations = [$/;"	kind:variable	line:17
+operations	core/migrations/0003_auto_20170118_1803.py	/^    operations = [$/;"	kind:variable	line:14
+operations	core/migrations/0004_auto_20170120_1821.py	/^    operations = [$/;"	kind:variable	line:14
+operations	core/migrations/0005_chatmessage.py	/^    operations = [$/;"	kind:variable	line:16
+options	core/migrations/0001_initial.py	/^            options={$/;"	kind:variable	line:29
+options	core/migrations/0001_initial.py	/^            options={$/;"	kind:variable	line:42
+options	core/migrations/0005_chatmessage.py	/^            options={$/;"	kind:variable	line:26
+os	manage.py	/^import os$/;"	kind:namespace	line:2
+os	ngs2/settings.py	/^import os$/;"	kind:namespace	line:13
+os	ngs2/wsgi.py	/^import os$/;"	kind:namespace	line:10
+possible_hosts	ngs2/settings.py	/^possible_hosts = env.str('DJANGO_ALLOWED_HOST', None)$/;"	kind:variable	line:35
+python_2_unicode_compatible	core/models.py	/^from django.utils.encoding import python_2_unicode_compatible$/;"	kind:namespace	line:5
+re	publicgoods/views.py	/^import re$/;"	kind:namespace	line:7
+render	surveys/views.py	/^from django.shortcuts import render$/;"	kind:namespace	line:1
+render_to	anagrams/views.py	/^from annoying.decorators import render_to$/;"	kind:namespace	line:3
+render_to	core/views.py	/^from annoying.decorators import render_to$/;"	kind:namespace	line:3
+render_to	groupultimatums/views.py	/^from annoying.decorators import render_to$/;"	kind:namespace	line:3
+render_to	publicgoods/views.py	/^from annoying.decorators import render_to$/;"	kind:namespace	line:3
+reverse	core/decorators.py	/^from django.urls import reverse$/;"	kind:namespace	line:8
+room	core/models.py	/^    room = models.CharField(max_length=200)$/;"	kind:variable	line:47
+route	core/routing.py	/^from channels.routing import route, include$/;"	kind:namespace	line:1
+routing.py	core/routing.py	1;"	kind:file	line:1
+settings	core/decorators.py	/^from django.conf import settings$/;"	kind:namespace	line:6
+settings	core/migrations/0001_initial.py	/^from django.conf import settings$/;"	kind:namespace	line:5
+settings	core/migrations/0002_auto_20170118_1550.py	/^from django.conf import settings$/;"	kind:namespace	line:6
+settings	core/users/adapters.py	/^from django.conf import settings$/;"	kind:namespace	line:2
+settings	ngs2/urls.py	/^from django.conf import settings$/;"	kind:namespace	line:16
+settings.py	ngs2/settings.py	1;"	kind:file	line:1
+state	core/models.py	/^    state = models.CharField(choices=STATE, default=STATE.s1, max_length=20)$/;"	kind:variable	line:38
+state	core/models.py	/^    state = models.CharField(choices=STATE, default=STATE.w1, max_length=20)$/;"	kind:variable	line:17
+state_mismatch	core/views.py	/^def state_mismatch(request):$/;"	kind:function	line:10
+survey	anagrams/views.py	/^def survey(request):$/;"	kind:function	line:45
+survey	groupultimatums/views.py	/^def survey(request):$/;"	kind:function	line:63
+survey	publicgoods/views.py	/^def survey(request):$/;"	kind:function	line:80
+sys	manage.py	/^import sys$/;"	kind:namespace	line:3
+tests.py	anagrams/tests.py	1;"	kind:file	line:1
+tests.py	core/tests.py	1;"	kind:file	line:1
+tests.py	groupultimatums/tests.py	1;"	kind:file	line:1
+tests.py	publicgoods/tests.py	1;"	kind:file	line:1
+tests.py	surveys/tests.py	1;"	kind:file	line:1
+timezone	core/migrations/0001_initial.py	/^import django.utils.timezone$/;"	kind:namespace	line:8
+timezone	core/migrations/0005_chatmessage.py	/^import django.utils.timezone$/;"	kind:namespace	line:6
+tutorial	anagrams/views.py	/^def tutorial(request):$/;"	kind:function	line:38
+tutorial	groupultimatums/views.py	/^def tutorial(request):$/;"	kind:function	line:56
+tutorial	publicgoods/views.py	/^def tutorial(request):$/;"	kind:function	line:73
+unicode_literals	anagrams/models.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:1
+unicode_literals	core/apps.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:1
+unicode_literals	core/migrations/0001_initial.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:3
+unicode_literals	core/migrations/0002_auto_20170118_1550.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:3
+unicode_literals	core/migrations/0003_auto_20170118_1803.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:3
+unicode_literals	core/migrations/0004_auto_20170120_1821.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:3
+unicode_literals	core/migrations/0005_chatmessage.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:3
+unicode_literals	core/models.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:1
+unicode_literals	groupultimatums/models.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:1
+unicode_literals	publicgoods/models.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:1
+unicode_literals	surveys/models.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:1
+url	anagrams/urls.py	/^from django.conf.urls import url$/;"	kind:namespace	line:1
+url	groupultimatums/urls.py	/^from django.conf.urls import url$/;"	kind:namespace	line:1
+url	ngs2/urls.py	/^from django.conf.urls import include, url$/;"	kind:namespace	line:17
+url	publicgoods/urls.py	/^from django.conf.urls import url$/;"	kind:namespace	line:1
+urlpatterns	anagrams/urls.py	/^urlpatterns = [$/;"	kind:variable	line:4
+urlpatterns	groupultimatums/urls.py	/^urlpatterns = [$/;"	kind:variable	line:4
+urlpatterns	ngs2/urls.py	/^urlpatterns = [$/;"	kind:variable	line:22
+urlpatterns	publicgoods/urls.py	/^urlpatterns = [$/;"	kind:variable	line:4
+urls.py	anagrams/urls.py	1;"	kind:file	line:1
+urls.py	groupultimatums/urls.py	1;"	kind:file	line:1
+urls.py	ngs2/urls.py	1;"	kind:file	line:1
+urls.py	publicgoods/urls.py	1;"	kind:file	line:1
+user	core/models.py	/^    user = AutoOneToOneField(User, primary_key=True, on_delete=models.CASCADE)$/;"	kind:variable	line:36
+utils	core/migrations/0001_initial.py	/^import django.utils.timezone$/;"	kind:namespace	line:8
+utils	core/migrations/0005_chatmessage.py	/^import django.utils.timezone$/;"	kind:namespace	line:6
+valid_state_redirects	anagrams/views.py	/^valid_state_redirects = {$/;"	kind:variable	line:8
+valid_state_redirects	groupultimatums/views.py	/^valid_state_redirects = {$/;"	kind:variable	line:8
+valid_state_redirects	publicgoods/views.py	/^valid_state_redirects = {$/;"	kind:variable	line:9
+views	anagrams/urls.py	/^from . import views$/;"	kind:namespace	line:2
+views	groupultimatums/urls.py	/^from . import views$/;"	kind:namespace	line:2
+views	ngs2/urls.py	/^from core import views$/;"	kind:namespace	line:20
+views	publicgoods/urls.py	/^from . import views$/;"	kind:namespace	line:2
+views.py	anagrams/views.py	1;"	kind:file	line:1
+views.py	core/views.py	1;"	kind:file	line:1
+views.py	groupultimatums/views.py	1;"	kind:file	line:1
+views.py	publicgoods/views.py	1;"	kind:file	line:1
+views.py	surveys/views.py	1;"	kind:file	line:1
+waiting_room	anagrams/views.py	/^def waiting_room(request):$/;"	kind:function	line:29
+waiting_room	groupultimatums/views.py	/^def waiting_room(request):$/;"	kind:function	line:47
+waiting_room	publicgoods/views.py	/^def waiting_room(request):$/;"	kind:function	line:63
+ws_json_payload	anagrams/consumers.py	/^from core.decorators import ws_json_payload$/;"	kind:namespace	line:8
+ws_json_payload	core/decorators.py	/^def ws_json_payload(function=None):$/;"	kind:function	line:41
+wsgi.py	ngs2/wsgi.py	1;"	kind:file	line:1
