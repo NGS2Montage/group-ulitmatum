@@ -111,7 +111,7 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',
+                'django.template.context_processors.request', # required for allauth
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -161,6 +161,15 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -182,6 +191,7 @@ STATICFILES_DIRS = (
     ROOT_DIR.path('anagrams')('static'),
     ROOT_DIR.path('publicgoods')('static'),
     ROOT_DIR.path('groupultimatums')('static'),
+    ROOT_DIR.path('core')('static'),
 )
 
 STATIC_URL = '/static/'
@@ -189,16 +199,18 @@ STATIC_URL = '/static/'
 
 # SITE CONFIGURATION
 # ------------------------------------------------------------------------------
-SITE_ID = 1
+# Get this id from the admin page site table
+SITE_ID = 2
+
 
 
 # ALLAUTH CONFIGURATION
 # ------------------------------------------------------------------------------
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
 
-ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', False)
+ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
 ACCOUNT_ADAPTER = 'core.users.adapters.AccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'core.users.adapters.SocialAccountAdapter'
 
