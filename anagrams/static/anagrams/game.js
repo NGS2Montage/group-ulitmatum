@@ -99,10 +99,13 @@ rivets.bind(document.getElementById('app-view'), {app: app});
 //////////////////////////////////////////////////////////////
 // WebSocket
 //////////////////////////////////////////////////////////////
-socket = new WebSocket("ws://" + window.location.host + "/anagrams");
+socket = new WebSocket("ws://" + window.location.host + "/anagrams/");
 socket.sendJSON = function (message) {
     console.log("OUT", message);
-    socket.send(JSON.stringify(message));
+    socket.send(JSON.stringify({
+        stream: 'anagrams',
+        payload: message
+    }));
 }
 
 socket.onmessage = function(e) {
@@ -112,6 +115,7 @@ socket.onmessage = function(e) {
         console.error("Unexpected string from server", e.data);
     }
 
+    message = message.payload;
     console.log("IN", message);
 
     if (message.type === "chat") {

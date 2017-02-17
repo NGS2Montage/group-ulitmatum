@@ -10,6 +10,7 @@ from channels.auth import channel_session_user, channel_session_user_from_http
 from core.decorators import ws_json_payload, persistent_ws
 from core.models import Friend
 from .models import UserLetter, LetterTransaction
+from .bindings import UserLetterBinding, LetterTransactionBinding
 
 
 # Connected to websocket.connect
@@ -99,3 +100,58 @@ def anagrams_message(message):
 def anagrams_disconnect(message):
     logger.debug("A websocket named {} just left".format(message.reply_channel))
     Group("chat-%s" % message.channel_session['room']).discard(message.reply_channel)
+
+
+from channels.generic.websockets import JsonWebsocketConsumer, WebsocketDemultiplexer
+
+
+class AnagramsServer(JsonWebsocketConsumer):
+
+    http_user = True
+
+    type_mapping = {
+        'init-game': 'init_game'
+    }
+
+    def connection_groups(self, **kwargs):
+        logger.debug("Do you think we have username up here?" + str(kwargs) + str(self.message.user))
+        return [self.message.user.username + "solo"]
+
+    def receive(self, content, multiplexer, **kwargs):
+        logger.debug("What exactly is in content?" + str(content))
+
+        if 'type' not in content:
+            logger.error("No type in content in AnagramsServer " + str(content))
+
+        handler = getattr(self, self.type_mapping[content['type']])
+        handler(content, multiplexer)
+        # multiplexer.send(content)
+
+    def init_game(self, content, multiplexer):
+        friends_info = [{
+            "name": f.friend.username,
+            "letters": [ul.letter for ul in UserLetter.objects.filter(user=f.friend)]
+        } for f in Friend.objects.filter(user=self.message.user)]
+
+        response = {
+            "type": "init-game",
+            "letters": [ul.letter for ul in UserLetter.objects.filter(user=self.message.user)],
+            "username": self.message.user.username,
+            "friends": friends_info
+        }
+        multiplexer.send(response)
+
+
+class Demultiplexer(WebsocketDemultiplexer):
+    http_user = True
+
+    # Wire your JSON consumers here: {stream_name : consumer}
+    consumers = {
+        "anagrams": AnagramsServer,
+        "userletter": UserLetterBinding.consumer,
+        "lettertransaction": LetterTransactionBinding.consumer,
+    }
+
+    def connection_groups(self):
+        logger.debug("connection_groups " + str(self.message.user))
+        return [self.message.user.username + "solo"]

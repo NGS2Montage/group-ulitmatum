@@ -16,7 +16,7 @@ django-reversion==2.0.8
 django-allauth==0.30.0
 
 # Websockets
-channels==1.0.1
+channels==1.0.3
 
 # General utilities
 arrow==0.10.0
