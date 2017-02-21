@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount',  # registration (must be here even if you don't use)
 
     'channels',  # websockets
+    'channels_api',
 
     # our stuff
     'core',

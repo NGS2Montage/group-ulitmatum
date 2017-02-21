@@ -115,6 +115,7 @@ socket.onmessage = function(e) {
         console.error("Unexpected string from server", e.data);
     }
 
+    console.log("IN", message);
     message = message.payload;
     console.log("IN", message);
 
@@ -151,14 +152,34 @@ socket.onmessage = function(e) {
 }
 
 socket.onopen = function() {
-    socket.sendJSON({
-        type: "chat",
-        message: "Hello world chat"
-    });
+    // socket.sendJSON({
+    //     type: "chat",
+    //     message: "Hello world chat"
+    // });
 
     socket.sendJSON({
         type: "init-game"
     });
+
+    var msg = {
+      stream: "userletter",
+      payload: {
+        action: "list",
+        data: {}
+      }
+    };
+
+    socket.send(JSON.stringify(msg));
+
+    msg = {
+      stream: "lettertransaction",
+      payload: {
+        action: "list",
+        data: {}
+      }
+    };
+
+    socket.send(JSON.stringify(msg));
 }
 // Call onopen directly if socket is already open
 if (socket.readyState == WebSocket.OPEN) socket.onopen();
