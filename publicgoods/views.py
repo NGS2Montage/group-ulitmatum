@@ -24,7 +24,7 @@ def game(request):
         f = 0
         try:
             f = float(s)
-            if not re.match(r'^[0-9]*\.[0-9]{2}$', s):
+            if not re.match(r'^[0-9]*\.?[0-9]{2}$', s):
                 return "the amount format is invalid"
             else:
                 return ""  
