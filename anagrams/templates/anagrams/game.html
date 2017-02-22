@@ -6,6 +6,10 @@
 
 {% block extra_head %}
 <script type="text/javascript" src="{% static 'anagrams/rivets.bundled.min.js' %}"></script>
+<script type="text/javascript">
+    USERNAME = "{{ user.username }}";
+    USERPK = {{ user.pk }};
+</script>
 {% endblock extra_head %}
 
 {% block content %}
@@ -17,7 +21,7 @@
                     <span>Friend : { friend.name }</span>
                     <ul>
                         <li rv-each-letter="friend.letters">
-                            <span rv-on-click="app.requestLetter">Letter : { letter }</span>
+                            <span rv-on-click="letter.requestLetter">Letter : { letter }</span>
                         </li>
                     </ul>
                 </li>
@@ -61,10 +65,11 @@
                 <li rv-each-letter="app.user.letters">{letter}</li>
             </ul>
             Requested by your friends:
-            <ul>
-                <li rv-each-request="app.user.requests"
-                    rv-on-click="app.approveRequest">
-                    {request | requestedLetter < request.requester}
+            <ul rv-each-friend="app.friends">
+                <li rv-each-transaction="friend.transactions"
+                    rv-on-click="transaction.approve"
+                    rv-hide="transaction.approved">
+                    {friend.name} requests your {transaction}
                 </li>
             </ul>
             Received from your friends:

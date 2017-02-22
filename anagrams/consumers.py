@@ -10,7 +10,7 @@ from channels.auth import channel_session_user, channel_session_user_from_http
 from core.decorators import ws_json_payload, persistent_ws
 from core.models import Friend
 from .models import UserLetter, LetterTransaction
-from .bindings import UserLetterBinding, LetterTransactionBinding
+from .bindings import FriendBinding, LetterTransactionBinding, UserLetterBinding
 
 
 # Connected to websocket.connect
@@ -148,8 +148,9 @@ class Demultiplexer(WebsocketDemultiplexer):
     # Wire your JSON consumers here: {stream_name : consumer}
     consumers = {
         "anagrams": AnagramsServer,
-        "userletter": UserLetterBinding.consumer,
-        "lettertransaction": LetterTransactionBinding.consumer,
+        "friends": FriendBinding.consumer,
+        "lettertransactions": LetterTransactionBinding.consumer,
+        "userletters": UserLetterBinding.consumer,
     }
 
     def connection_groups(self):

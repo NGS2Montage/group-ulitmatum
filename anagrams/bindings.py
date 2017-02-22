@@ -6,26 +6,52 @@ from django.db.models import Q
 # from channels.binding.websockets import WebsocketBinding
 from channels_api.bindings import ResourceBinding
 
+from core.models import Friend
 from .models import LetterTransaction, UserLetter
-from .serializers import LetterTransactionSerializer, UserLetterSerializer
+from .serializers import FriendSerializer, LetterTransactionSerializer, UserLetterSerializer
+
+
+class FriendBinding(ResourceBinding):
+
+    model = Friend
+    stream = "friends"
+    serializer_class = FriendSerializer
+
+    def get_queryset(self):
+        return Friend.objects.filter(user=self.user)
+
+    @classmethod
+    def group_names(self, instance):
+        logger.debug(str(instance))
+        return [instance.user.username + "solo"]
+
+    def has_permission(self, user, action, pk):
+        logger.debug("F has_permission {} {} {}".format(user, action, pk))
+
+        if action in ['create', 'update', 'delete']:
+            return False
+
+        return True
 
 
 class UserLetterBinding(ResourceBinding):
 
     model = UserLetter
-    stream = "userletter"
+    stream = "userletters"
     serializer_class = UserLetterSerializer
-    queryset = None
-    # fields = ["letter"]
 
     def get_queryset(self):
-        # logger.debug("What's on self? {}".format(self.user))
-        return UserLetter.objects.filter(user=self.user)
+        friends = Friend.objects.filter(user=self.user)
+
+        query = Q(user=self.user)
+        for f in friends:
+            query = query | Q(user=f.friend)
+
+        return UserLetter.objects.filter(query)
 
     @classmethod
     def group_names(self, instance):
         logger.debug(str(instance))
-        # return ["userletter-updates"]
         return [instance.user.username + "solo"]
 
     def has_permission(self, user, action, pk):
@@ -40,13 +66,10 @@ class UserLetterBinding(ResourceBinding):
 class LetterTransactionBinding(ResourceBinding):
 
     model = LetterTransaction
-    stream = "lettertransaction"
+    stream = "lettertransactions"
     serializer_class = LetterTransactionSerializer
-    # queryset = LetterTransaction.objects.all()
-    # fields = ["borrower", "letter__letter", "letter__user__username", "approved"]
 
     def get_queryset(self):
-        # logger.debug("What's on self? {}".format(self.user))
         return LetterTransaction.objects.filter(Q(borrower=self.user) | Q(letter__user=self.user))
 
     @classmethod
