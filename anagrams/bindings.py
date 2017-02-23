@@ -8,30 +8,7 @@ from channels_api.bindings import ResourceBinding
 
 from core.models import Friend
 from .models import LetterTransaction, UserLetter
-from .serializers import FriendSerializer, LetterTransactionSerializer, UserLetterSerializer
-
-
-class FriendBinding(ResourceBinding):
-
-    model = Friend
-    stream = "friends"
-    serializer_class = FriendSerializer
-
-    def get_queryset(self):
-        return Friend.objects.filter(user=self.user)
-
-    @classmethod
-    def group_names(self, instance, action):
-        logger.debug(str(instance))
-        return [instance.user.username + "solo"]
-
-    def has_permission(self, user, action, pk):
-        logger.debug("F has_permission {} {} {}".format(user, action, pk))
-
-        if action in ['create', 'update', 'delete']:
-            return False
-
-        return True
+from .serializers import LetterTransactionSerializer, UserLetterSerializer
 
 
 class UserLetterBinding(ResourceBinding):

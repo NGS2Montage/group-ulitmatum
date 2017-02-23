@@ -2,12 +2,41 @@ var app = {
     user: {},
     friends: [],
     chats: [],
+    newChat: "",
     subscribed: false,
     letters: {},
     saveLetters: function (letters) {
         letters.forEach(function (letter) {
             app.letters[letter.pk] = letter;
         });
+    },
+    sendChat: function (message) {
+        if (app.newChat.trim().length !== 0) {
+            var msg = {
+              stream: "chats",
+              payload: {
+                action: "create",
+                data: {
+                    user: app.user.pk,
+                    message: app.newChat
+                }
+              }
+            };
+
+            app.newChat = "";
+            socket.send(JSON.stringify(msg));
+        }
+    },
+    hydrateUser: function (pk) {
+        var user = null;
+        if (pk !== app.user.pk) {
+            user = app.friends.find(function (friend) {
+                return friend.pk === pk;
+            });
+        } else {
+            user = app.user;
+        }
+        return user;
     }
 }
 app.user = new User({
@@ -115,10 +144,9 @@ User.prototype.updateTransaction = function (transaction) {
     }
 };
 
-// //////////////////////////////////////////////////////////////
-// // rivets init
-// //////////////////////////////////////////////////////////////
-// rivets.bind(document.getElementById('app-view'), {app: app});
+User.prototype.toString = function () {
+    return this.name;
+};
 
 //////////////////////////////////////////////////////////////
 // WebSocket
@@ -158,42 +186,25 @@ socket.onmessage = function(e) {
         }
     }
 
-    if (message.stream === "lettertransactions") {
-        if (message.payload.action === 'create' && !('response_status' in message.payload)) {
+    if (message.stream === "lettertransactions" && !('response_status' in message.payload)) {
+        if (message.payload.action === 'create' || message.payload.action === 'update') {
             message.payload.data.letter = app.letters[message.payload.data.letter];
 
-            var transactingUser = null;
-            if (message.payload.data.borrower !== app.user.pk) {
-                transactingUser = app.friends.find(function (friend) {
-                    return friend.pk === message.payload.data.borrower;
-                });
-            } else {
-                transactingUser = app.user;
-            }
+            var transactingUser = app.hydrateUser(message.payload.data.borrower);
 
             if (transactingUser != null) {
-                transactingUser.addTransaction(new LetterTransaction(message.payload.data));
+                var method = (message.payload.action === 'create') ? 'addTransaction' : 'updateTransaction';
+                transactingUser[method](new LetterTransaction(message.payload.data));
             } else {
                 console.error("No user with pk ", message.payload.data.borrower);
             }
         }
-        if (message.payload.action === 'update' && !('response_status' in message.payload)) {
-            message.payload.data.letter = app.letters[message.payload.data.letter];
+    }
 
-            var transactingUser = null;
-            if (message.payload.data.borrower !== app.user.pk) {
-                var transactingUser = app.friends.find(function (friend) {
-                    return friend.pk === message.payload.data.borrower;
-                });
-            } else {
-                transactingUser = app.user;
-            }
-
-            if (transactingUser != null) {
-                transactingUser.updateTransaction(new LetterTransaction(message.payload.data));
-            } else {
-                console.error("No user with pk ", message.payload.data.borrower);
-            }
+    if (message.stream === 'chats') {
+        if (message.payload.action === 'create' && !('response_status' in message.payload)) {
+            message.payload.data.user = app.hydrateUser(message.payload.data.user);
+            app.chats.push(message.payload.data);
         }
     }
 
@@ -246,6 +257,17 @@ socket.onmessage = function(e) {
                     action: "subscribe",
                     data: {
                         action: "delete"
+                    }
+                  }
+                };
+                socket.send(JSON.stringify(msg));
+
+                var msg = {
+                  stream: "chats",
+                  payload: {
+                    action: "subscribe",
+                    data: {
+                        action: "create"
                     }
                   }
                 };
