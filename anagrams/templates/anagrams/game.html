@@ -74,11 +74,15 @@
             </ul>
             Received from your friends:
             <ul>
-                <li rv-each-letter="app.letters" rv-show="letter.received">{letter | letterRequest}</li>
+                <li rv-each-transaction="app.user.transactions"
+                    rv-show="transaction.approved">
+                    {transaction} from {transaction.letter.user}</li>
             </ul>
             Requested by you and waiting for response:
             <ul>
-                <li rv-each-letter="app.letters" rv-show="letter.requested">{letter | letterRequest}</li>
+                <li rv-each-transaction="app.user.transactions"
+                    rv-hide="transaction.approved">
+                    requested {transaction} from {transaction.letter.user}</li>
             </ul>
         </div>
     </div>

@@ -21,7 +21,7 @@ class FriendBinding(ResourceBinding):
         return Friend.objects.filter(user=self.user)
 
     @classmethod
-    def group_names(self, instance):
+    def group_names(self, instance, action):
         logger.debug(str(instance))
         return [instance.user.username + "solo"]
 
@@ -50,7 +50,7 @@ class UserLetterBinding(ResourceBinding):
         return UserLetter.objects.filter(query)
 
     @classmethod
-    def group_names(self, instance):
+    def group_names(self, instance, action):
         logger.debug(str(instance))
         return [instance.user.username + "solo"]
 
