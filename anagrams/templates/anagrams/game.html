@@ -40,7 +40,7 @@
                 <div class="form-group">
                     <input rv-value="app.newChat" rv-on-submit="app.sendChat" type="text" name="new-chat">
                 </div>
-                <button rv-on-click="app.sendChat" type="submit" class="btn btn-default">Submit</button>
+                <button rv-on-click="app.sendChat" type="submit" class="btn btn-default">Send Chat</button>
             </form>
         </div>
     </div>
@@ -48,13 +48,19 @@
         <div class="row">
             <ul>
                 <li rv-each-word="app.successWords">
-                    <span>word</span>
+                    <span>{word}</span>
                 </li>
             </ul>
         </div>
         <div class="row">
             Enter word:
             need input here
+            <form onsubmit="return false">
+                <div class="form-group">
+                    <input rv-value="app.newWord" rv-on-submit="app.sendWord" type="text" name="new-word">
+                </div>
+                <button rv-on-click="app.sendWord" type="submit" class="btn btn-default">Submit</button>
+            </form>
         </div>
     </div>
     <div class="col-md-4">

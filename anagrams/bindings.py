@@ -7,10 +7,39 @@ from django.db.models import Q
 from channels_api.bindings import ResourceBinding
 
 from core.models import Friend
-from .models import LetterTransaction, UserLetter
-from .serializers import LetterTransactionSerializer, UserLetterSerializer
+from .models import LetterTransaction, UserLetter, TeamWord
+from .serializers import LetterTransactionSerializer, UserLetterSerializer, TeamWordSerializer
 
 
+class TeamWordBinding(ResourceBinding):
+
+    model = TeamWord
+    stream = "teamwords"
+    serializer_class = TeamWordSerializer
+
+    def get_queryset(self):
+        # this should be TeamWord.objects.filter(team=self.user.team)
+        return TeamWord.objects.all()
+
+    @classmethod
+    def group_names(self, instance, action):
+        logger.debug(str(instance))
+        return ["team-1"]
+
+    def has_permission(self, user, action, pk):
+        logger.debug("TW has_permission {} {} {}".format(user, action, pk))
+
+        if action in ['update', 'delete']:
+            return False
+
+        if action == 'create':
+            # Do a lot of checking here to make sure that this guy has access 
+            # to all the letters he is trying to use and that it's a real
+            # word, return False for any of those problems
+            # Also make sure that this word is not already in the table
+            return True
+
+     
 class UserLetterBinding(ResourceBinding):
 
     model = UserLetter

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import LetterTransaction, UserLetter
+from .models import LetterTransaction, UserLetter, TeamWord
 
 
 class UserLetterSerializer(serializers.ModelSerializer):
@@ -13,3 +13,9 @@ class LetterTransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = LetterTransaction
         fields = ('pk', 'borrower', 'letter', 'approved')
+
+
+class TeamWordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TeamWord
+        fields = ('pk', 'word', 'user')

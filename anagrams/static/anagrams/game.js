@@ -3,6 +3,8 @@ var app = {
     friends: [],
     chats: [],
     newChat: "",
+    successWords: [],
+    newWord: "",
     subscribed: false,
     letters: {},
     saveLetters: function (letters) {
@@ -10,22 +12,39 @@ var app = {
             app.letters[letter.pk] = letter;
         });
     },
-    sendChat: function (message) {
-        if (app.newChat.trim().length !== 0) {
+    sendChat: function () {
+        var message = app.newChat.trim();
+        if (message.length !== 0) {
             var msg = {
               stream: "chats",
               payload: {
                 action: "create",
                 data: {
                     user: app.user.pk,
-                    message: app.newChat
+                    message: message
                 }
               }
             };
-
-            app.newChat = "";
             socket.send(JSON.stringify(msg));
         }
+        app.newChat = "";
+    },
+    sendWord: function () {
+        var word = app.newWord.trim();
+        if (word.length !== 0 && app.successWords.indexOf(word) === -1) {
+            var msg = {
+              stream: "teamwords",
+              payload: {
+                action: "create",
+                data: {
+                    user: app.user.pk,
+                    word: word
+                }
+              }
+            };
+            socket.send(JSON.stringify(msg));
+        }
+        app.newWord = "";
     },
     hydrateUser: function (pk) {
         var user = null;
@@ -208,6 +227,13 @@ socket.onmessage = function(e) {
         }
     }
 
+    if (message.stream === 'teamwords') {
+        if (message.payload.action === 'create' && !('response_status' in message.payload)) {
+            // message.payload.data.user = app.hydrateUser(message.payload.data.user);
+            app.successWords.push(message.payload.data.word);
+        }
+    }
+
     if (message.stream === 'userletters') {
         if (message.payload.action === 'list') {
             app.user.letters = message.payload.data.filter(function (letter) {
@@ -272,6 +298,17 @@ socket.onmessage = function(e) {
                   }
                 };
                 socket.send(JSON.stringify(msg));
+
+                var msg = {
+                  stream: "teamwords",
+                  payload: {
+                    action: "subscribe",
+                    data: {
+                        action: "create"
+                    }
+                  }
+                };
+                socket.send(JSON.stringify(msg));
             }
         }
     }
@@ -287,8 +324,15 @@ socket.onopen = function() {
       }
     };
     socket.send(JSON.stringify(msg));
-
-
 }
+
+socket.onerror = function (err) {
+    console.error("ERROR on websocket ", err);
+}
+
+socket.onclose = function () {
+    console.log("Socket closed... let's try to reopen it soon");
+}
+
 // Call onopen directly if socket is already open
 if (socket.readyState == WebSocket.OPEN) socket.onopen();

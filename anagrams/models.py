@@ -4,6 +4,8 @@ from django.conf import settings
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
+from model_utils.models import TimeStampedModel
+
 
 @python_2_unicode_compatible
 class UserLetter(models.Model):
@@ -22,3 +24,12 @@ class LetterTransaction(models.Model):
 
     def __str__(self):
         return u'({} -> {}) {}'.format(self.letter.user.username, self.borrower.username, self.letter.letter.upper())
+
+
+@python_2_unicode_compatible
+class TeamWord(TimeStampedModel):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    word = models.CharField(max_length=30)
+
+    def __str__(self):
+        return u'({}) {}'.format(self.user.username, self.word)
