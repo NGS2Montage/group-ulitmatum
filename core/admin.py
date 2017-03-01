@@ -12,7 +12,7 @@ class GameAdmin(VersionAdmin):
 
 @admin.register(models.Profile)
 class ProfileAdmin(VersionAdmin):
-    list_display = ('user', 'state', 'team', 'get_groups')
+    list_display = ('user', 'state', 'get_groups')
 
     def get_groups(self, obj):
         return ", ".join([str(g) for g in obj.groups.all()])
@@ -20,8 +20,10 @@ class ProfileAdmin(VersionAdmin):
 
 @admin.register(models.Group)
 class GroupAdmin(VersionAdmin):
-    pass
+    list_display = ('group_name', 'team')
 
+    def group_name(self, obj):
+        return str(obj)
 
 @admin.register(models.Team)
 class TeamAdmin(VersionAdmin):

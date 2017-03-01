@@ -46,7 +46,7 @@ class Demultiplexer(WebsocketDemultiplexer):
 
     def connection_groups(self):
         
-        team_group = str(self.message.user.profile.team)
+        team_group = str(self.message.user.group.team)
         groups = [self.message.user.username + "solo", "universal-chat", team_group]
         chat_groups = [str(g) for g in self.message.user.profile.groups.all()]
         groups.extend(chat_groups)

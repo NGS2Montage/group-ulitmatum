@@ -25,7 +25,7 @@ class UserBinding(ResourceBinding):
 
     @classmethod
     def group_names(self, instance, action):
-        return [instance.user.username + "solo"]
+        return [instance.username + "solo"]
 
     def has_permission(self, user, action, pk):
         logger.debug("G has_permission {} {} {}".format(user, action, pk))

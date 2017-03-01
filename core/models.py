@@ -2,10 +2,13 @@ from __future__ import unicode_literals
 
 
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible
 
-from annoying.fields import AutoOneToOneField
+
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
 
@@ -19,7 +22,7 @@ class Game(TimeStampedModel):
     objects = GameManager()
 
     def __str__(self):
-        return u'state={}'.format(self.state)
+        return u'game-{} ({})'.format(self.pk, self.state)
 
     def advance_to_next_state(self):
         if self.state == 'w1':
@@ -35,6 +38,7 @@ class Game(TimeStampedModel):
 @python_2_unicode_compatible
 class Team(models.Model):
     offeror = models.BooleanField(default=False)
+    game = models.ForeignKey(Game, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         # Is this confusing? We use this elsewhere as the channels Group name
@@ -42,9 +46,11 @@ class Team(models.Model):
         # this model to be more explicit?
         return 'team-{}'.format(self.pk)
 
+
 @python_2_unicode_compatible
 class Group(models.Model):
-    user = AutoOneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return "group-{}".format(self.user.username)
@@ -54,15 +60,21 @@ class Group(models.Model):
 class Profile(TimeStampedModel):
     STATE = Choices('s1', 't1', 'w1', 'g1', 'g2', 's2', 't2', 'w3', 's3', 't3', 'g31', 'g32', 'g33')
 
-    user = AutoOneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE)
-    
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE)
+
     state = models.CharField(choices=STATE, default=STATE.s1, max_length=20)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True)
     groups = models.ManyToManyField(Group)
     money_earned = models.DecimalField(default=0, max_digits=6, decimal_places=2)
 
     def __str__(self):
         return u'user={} state={}'.format(self.user.username, self.state)
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        profile = Profile.objects.create(user=instance)
+        profile.groups.create(user=instance)
 
 
 @python_2_unicode_compatible
