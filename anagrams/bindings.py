@@ -17,11 +17,11 @@ class TeamWordBinding(ResourceBinding):
     serializer_class = TeamWordSerializer
 
     def get_queryset(self):
-        return TeamWord.objects.filter(user__profile__team=self.user.profile.team)
+        return TeamWord.objects.filter(user__profile__team=self.user.group.team)
 
     @classmethod
     def group_names(self, instance, action):
-        return [str(instance.user.profile.team)]
+        return [str(instance.user.group.team)]
 
     def has_permission(self, user, action, pk):
         logger.debug("TW has_permission {} {} {}".format(user, action, pk))
