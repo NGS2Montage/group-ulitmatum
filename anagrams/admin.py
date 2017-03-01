@@ -9,6 +9,7 @@ from .models import UserLetter, LetterTransaction, TeamWord
 class TeamWordAdmin(VersionAdmin):
     list_display = ('word', 'user')
 
+
 @admin.register(LetterTransaction)
 class LetterTransactionAdmin(VersionAdmin):
     pass

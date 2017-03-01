@@ -11,7 +11,7 @@ from django.urls import reverse
 from annoying.functions import get_object_or_None
 from channels import Group
 
-from .models import ChatMessage, Game, WebSocket
+from .models import ChatMessage, Game
 
 
 def game_state_required(user_state, game_state, *dec_args, **dec_kwargs):

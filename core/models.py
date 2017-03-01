@@ -85,12 +85,3 @@ class ChatMessage(TimeStampedModel):
 
     def __str__(self):
         return u'[{}] {} (room: {})'.format(self.user.username, self.message, self.room)
-
-
-@python_2_unicode_compatible
-class WebSocket(models.Model):
-    reply_channel = models.CharField(max_length=200)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
-
-    def __str__(self):
-        return u'{} {}'.format(self.user.username, self.reply_channel)

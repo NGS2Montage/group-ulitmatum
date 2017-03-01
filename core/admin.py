@@ -33,8 +33,3 @@ class TeamAdmin(VersionAdmin):
 @admin.register(models.ChatMessage)
 class ChatMessageAdmin(admin.ModelAdmin):
     pass
-
-
-@admin.register(models.WebSocket)
-class WebSocketAdmin(admin.ModelAdmin):
-    pass
