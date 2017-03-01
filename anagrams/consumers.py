@@ -3,7 +3,7 @@ logger = logging.getLogger(__name__)
 
 from channels.generic.websockets import JsonWebsocketConsumer, WebsocketDemultiplexer
 
-from core.bindings import ChatMessageBinding, FriendBinding
+from core.bindings import ChatMessageBinding, GroupBinding, UserBinding
 from .bindings import LetterTransactionBinding, TeamWordBinding, UserLetterBinding
 
 
@@ -37,12 +37,20 @@ class Demultiplexer(WebsocketDemultiplexer):
     consumers = {
         "anagrams": AnagramsServer,
         "chats": ChatMessageBinding.consumer,
-        "friends": FriendBinding.consumer,
+        "groups": GroupBinding.consumer,
         "lettertransactions": LetterTransactionBinding.consumer,
         "teamwords": TeamWordBinding.consumer,
         "userletters": UserLetterBinding.consumer,
+        "users": UserBinding.consumer,
     }
 
     def connection_groups(self):
-        logger.debug("connection_groups " + str(self.message.user))
-        return [self.message.user.username + "solo", "universal-chat", "team-1"]
+        
+        team_group = str(self.message.user.profile.team)
+        groups = [self.message.user.username + "solo", "universal-chat", team_group]
+        chat_groups = [str(g) for g in self.message.user.profile.groups.all()]
+        groups.extend(chat_groups)
+
+        logger.debug("connection_groups for {}: {}".format(self.message.user, groups))
+        
+        return groups

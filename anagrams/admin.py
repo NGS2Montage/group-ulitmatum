@@ -16,4 +16,4 @@ class LetterTransactionAdmin(VersionAdmin):
 
 @admin.register(UserLetter)
 class UserLetterAdmin(VersionAdmin):
-    list_display = ('letter', 'user')
+    list_display = ('letter', 'user', 'pk')

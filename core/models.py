@@ -33,22 +33,36 @@ class Game(TimeStampedModel):
 
 
 @python_2_unicode_compatible
-class UserState(TimeStampedModel):
-    user = AutoOneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE)
-    STATE = Choices('s1', 't1', 'w1', 'g1', 'g2', 's2', 't2', 'w3', 's3', 't3', 'g31', 'g32', 'g33')
-    state = models.CharField(choices=STATE, default=STATE.s1, max_length=20)
+class Team(models.Model):
+    offeror = models.BooleanField(default=False)
 
     def __str__(self):
-        return u'user={} state={}'.format(self.user.username, self.state)
+        # Is this confusing? We use this elsewhere as the channels Group name
+        # for the whole team, maybe we should have a group_name() function on
+        # this model to be more explicit?
+        return 'team-{}'.format(self.pk)
+
+@python_2_unicode_compatible
+class Group(models.Model):
+    user = AutoOneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "group-{}".format(self.user.username)
 
 
 @python_2_unicode_compatible
-class Friend(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user')
-    friend = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='friend')
+class Profile(TimeStampedModel):
+    STATE = Choices('s1', 't1', 'w1', 'g1', 'g2', 's2', 't2', 'w3', 's3', 't3', 'g31', 'g32', 'g33')
+
+    user = AutoOneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE)
+    
+    state = models.CharField(choices=STATE, default=STATE.s1, max_length=20)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True)
+    groups = models.ManyToManyField(Group)
+    money_earned = models.DecimalField(default=0, max_digits=6, decimal_places=2)
 
     def __str__(self):
-        return u'user={} friend={}'.format(self.user.username, self.friend.username)
+        return u'user={} state={}'.format(self.user.username, self.state)
 
 
 @python_2_unicode_compatible

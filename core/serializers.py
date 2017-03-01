@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 
 from rest_framework import serializers
 
-from .models import ChatMessage, Friend
+from .models import ChatMessage, Group
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -12,12 +12,10 @@ class UserSerializer(serializers.ModelSerializer):
         read_only_fields = ('pk', 'username')
 
 
-class FriendSerializer(serializers.ModelSerializer):
-    friend = UserSerializer(read_only=True)
-
+class GroupSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Friend
-        fields = ('friend',)
+        model = Group
+        fields = ('user', 'profile_set')
 
 
 class ChatMessageSerializer(serializers.ModelSerializer):

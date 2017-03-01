@@ -2,29 +2,37 @@ from django.contrib import admin
 
 from reversion.admin import VersionAdmin
 
-from .models import Game, UserState, ChatMessage, WebSocket, Friend
+from . import models
 
 
-@admin.register(Game)
+@admin.register(models.Game)
 class GameAdmin(VersionAdmin):
-    list_display = ('state', )
+    list_display = ('pk', 'state', 'created')
 
 
-@admin.register(UserState)
-class UserStateAdmin(VersionAdmin):
-    list_display = ('state', 'user')
+@admin.register(models.Profile)
+class ProfileAdmin(VersionAdmin):
+    list_display = ('user', 'state', 'team', 'get_groups')
+
+    def get_groups(self, obj):
+        return ", ".join([str(g) for g in obj.groups.all()])
 
 
-@admin.register(Friend)
-class FriendAdmin(admin.ModelAdmin):
-    list_display = ('user', 'friend')
+@admin.register(models.Group)
+class GroupAdmin(VersionAdmin):
+    pass
 
 
-@admin.register(ChatMessage)
+@admin.register(models.Team)
+class TeamAdmin(VersionAdmin):
+    pass
+
+
+@admin.register(models.ChatMessage)
 class ChatMessageAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(WebSocket)
+@admin.register(models.WebSocket)
 class WebSocketAdmin(admin.ModelAdmin):
     pass

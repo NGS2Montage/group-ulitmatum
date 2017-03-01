@@ -21,7 +21,7 @@ def game_state_required(user_state, game_state, *dec_args, **dec_kwargs):
                 return view_func(request, *args, **kwargs)
 
             current_game_state = Game.objects.get_current_game().state
-            current_user_state = request.user.userstate.state
+            current_user_state = request.user.profile.state
 
             if current_game_state == game_state and current_user_state == user_state:
                 return view_func(request, *args, **kwargs)

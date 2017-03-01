@@ -188,10 +188,12 @@ socket.onmessage = function(e) {
 
     console.log("IN (" + message.stream + ")", message.payload);
 
-    if (message.stream === 'friends') {
+    if (message.stream === 'users') {
         if (message.payload.action === 'list') {
-            app.friends = message.payload.data.map(function (friend) {
-                return new User(friend.friend);
+            app.friends = message.payload.data.filter(function (user) {
+                return user.pk !== app.user.pk;
+            }).map(function (user) {
+                return new User(user);
             });
 
             var msg = {
@@ -317,7 +319,7 @@ socket.onmessage = function(e) {
 socket.onopen = function() {
 
     var msg = {
-      stream: "friends",
+      stream: "users",
       payload: {
         action: "list",
         data: {}
