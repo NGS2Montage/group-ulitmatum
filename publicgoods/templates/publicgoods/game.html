@@ -29,4 +29,10 @@
 {% block javascript %}
     {{ block.super }}
     <script src="{% static 'publicgoods/js/game.js' %}"></script>
+    <script type="text/javascript">
+        function redir_to_survey() {
+            window.location.href = "/phase2/survey/";
+        }
+        setTimeout(redir_to_survey, 300000);
+    </script>
 {% endblock %}
