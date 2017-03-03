@@ -17,7 +17,7 @@ valid_state_redirects = {
 }
 
 
-@game_state_required(user_state="g1", game_state="g1", **valid_state_redirects)
+@game_state_required(user_state="anagrams", game_state="anagrams", **valid_state_redirects)
 @render_to('anagrams/game.html')
 @login_required
 def game(request):

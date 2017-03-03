@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount',  # registration (must be here even if you don't use)
 
     'channels',  # websockets
+    'channels_api',
 
     # our stuff
     'core',
@@ -200,7 +201,7 @@ STATIC_URL = '/static/'
 # SITE CONFIGURATION
 # ------------------------------------------------------------------------------
 # Get this id from the admin page site table
-SITE_ID = 2
+SITE_ID = 1
 
 
 

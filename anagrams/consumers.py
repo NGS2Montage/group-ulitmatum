@@ -1,59 +1,32 @@
-import json
 import logging
 logger = logging.getLogger(__name__)
 
-from channels import Group
-from channels.sessions import channel_session
-from channels.auth import channel_session_user, channel_session_user_from_http
+from channels.generic.websockets import JsonWebsocketConsumer, WebsocketDemultiplexer
 
-from core.decorators import ws_json_payload
-from .models import UserLetter
+from core.bindings import ChatMessageBinding, GroupBinding, UserBinding
+from .bindings import LetterTransactionBinding, TeamWordBinding, UserLetterBinding
 
 
-# Connected to websocket.connect
-@channel_session_user_from_http
-def anagrams_add(message):
-    room = "room"
-    logger.debug("Adding new websocket to room {}".format(room))
-    # Accept connection
-    message.reply_channel.send({"accept": True})
+class Demultiplexer(WebsocketDemultiplexer):
+    http_user = True
 
-    message.channel_session['room'] = room
+    # Wire your JSON consumers here: {stream_name : consumer}
+    consumers = {
+        "chats": ChatMessageBinding.consumer,
+        "groups": GroupBinding.consumer,
+        "lettertransactions": LetterTransactionBinding.consumer,
+        "teamwords": TeamWordBinding.consumer,
+        "userletters": UserLetterBinding.consumer,
+        "users": UserBinding.consumer,
+    }
 
-    logger.error("NEED TO STORE REPLY CHANNELS IN DATABASE SO THAT WE CAN GROUP THEM LATER")
+    def connection_groups(self):
+        
+        team_group = str(self.message.user.group.team)
+        groups = [self.message.user.username + "solo", "universal-chat", team_group]
+        chat_groups = [str(g) for g in self.message.user.profile.groups.all()]
+        groups.extend(chat_groups)
 
-    # Add them to the right group
-    Group("chat-%s" % room).add(message.reply_channel)
-
-
-# Connected to websocket.receive
-@channel_session_user
-@ws_json_payload
-def anagrams_message(message):
-    msg = message['json']
-    logger.debug('got a message {}'.format(msg))
-
-    if 'type' in msg and msg['type'] == 'init-game':
-        response = {
-            "type": "init-game",
-            "letters": [ul.letter for ul in UserLetter.objects.filter(user=message.user)],
-            "username": message.user.username,
-            "friends": [{
-                "name": "USER0",
-                "letters": ["X", "E", "H"],
-            }, {
-                "name": "USER1",
-                "letters": ["C", "V", "E"],
-            }]
-        }
-        message.reply_channel.send({
-            "text": json.dumps(response)
-        })
-    elif 'type' in msg and msg['type'] == 'request-letter':
-        logger.debug("Letter request not yet implemented")
-
-
-# Connected to websocket.disconnect
-@channel_session
-def anagrams_disconnect(message):
-    Group("chat-%s" % message.channel_session['room']).discard(message.reply_channel)
+        logger.debug("connection_groups for {}: {}".format(self.message.user, groups))
+        
+        return groups

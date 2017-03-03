@@ -1,81 +1,182 @@
 var app = {
+    user: {},
     friends: [],
     chats: [],
-    user: {
-        name: "",
-        letters: [],
-    },
     newChat: "",
-    letters: [],
-    sendChat: function (event, model) {
-        socket.sendJSON({
-            type: "chat",
-            message: app.newChat,
+    successWords: [],
+    newWord: "",
+    subscribed: false,
+    letters: {},
+    saveLetters: function (letters) {
+        letters.forEach(function (letter) {
+            app.letters[letter.pk] = letter;
         });
+    },
+    sendChat: function () {
+        var message = app.newChat.trim();
+        if (message.length !== 0) {
+            var msg = {
+              stream: "chats",
+              payload: {
+                action: "create",
+                data: {
+                    user: app.user.pk,
+                    message: message
+                }
+              }
+            };
+            socket.send(JSON.stringify(msg));
+        }
         app.newChat = "";
     },
-    requestLetter: function (event, model) {
-        model.letter.request();
+    sendWord: function () {
+        var word = app.newWord.trim();
+        if (word.length !== 0 && app.successWords.indexOf(word) === -1) {
+            var msg = {
+              stream: "teamwords",
+              payload: {
+                action: "create",
+                data: {
+                    user: app.user.pk,
+                    word: word
+                }
+              }
+            };
+            socket.send(JSON.stringify(msg));
+        }
+        app.newWord = "";
     },
-    outstanding: function (letter) {
-        return true;
-    },
+    hydrateUser: function (pk) {
+        var user = null;
+        if (pk !== app.user.pk) {
+            user = app.friends.find(function (friend) {
+                return friend.pk === pk;
+            });
+        } else {
+            user = app.user;
+        }
+        return user;
+    }
+}
+app.user = new User({
+    username: USERNAME, // from template
+    pk: USERPK, // from template
+});
+
+
+//////////////////////////////////////////////////////////////
+// LetterTransaction
+//////////////////////////////////////////////////////////////
+function LetterTransaction(obj) {
+    this.letter = obj.letter;
+    this.pk = obj.pk;
+    this.borrower = obj.borrower;
+    this.approved = ('approved' in obj) ? obj.approved : false;
+}
+
+LetterTransaction.prototype.approve = function (event, model) {
+    msg = {
+      stream: "lettertransactions",
+      payload: {
+        action: "update",
+        pk: model.transaction.pk,
+        data: {
+            borrower: model.transaction.borrower,
+            letter: model.transaction.letter.pk,
+            approved: true,
+        }
+      }
+    };
+
+    socket.send(JSON.stringify(msg));
+}
+
+LetterTransaction.prototype.toString = function () {
+    return this.letter.toString();
 };
 
 //////////////////////////////////////////////////////////////
-// Letter
+// UserLetter
 //////////////////////////////////////////////////////////////
-function Letter(letter, owner) {
-    this.letter = letter;
-    this.owner = owner;
-    this.requested = false;
+function UserLetter(obj, username) {
+    this.letter = obj.letter;
+    this.pk = obj.pk;
+    this.user = username;
+}
+
+UserLetter.prototype.requestLetter = function (event, model) {
+    var existingTransaction = app.user.transactions.find(function (transaction) {
+        return (transaction.letter.pk === model.letter.pk);
+    });
+
+    if (existingTransaction) {
+        console.log("There is already a request for " + model.letter);
+    } else {
+        msg = {
+          stream: "lettertransactions",
+          payload: {
+            action: "create",
+            data: {
+                borrower: app.user.pk,
+                letter: model.letter.pk
+            }
+          }
+        };
+
+        socket.send(JSON.stringify(msg));
+    }
 };
 
-Letter.prototype.toString = function () {
+UserLetter.prototype.toString = function () {
     return this.letter;
 };
 
-Letter.prototype.request = function () {
-    if (this.requested) {
-        console.log(this.letter, "is already requested from", this.owner, " - ignoring");
-        return false;
-    }
-    this.requested = true;
-    var message = {
-        type: "request-letter",
-        from_user: this.owner,
-        letter: this.letter
-    };
-    socket.sendJSON(message);
-    return true;
-};
-
-rivets.formatters.letterRequest = function(letter){
-  return letter.letter + " from " + letter.owner;
-};
-
 
 //////////////////////////////////////////////////////////////
-// Friend
+// rivets init
 //////////////////////////////////////////////////////////////
-function Friend(friend) {
-    this.name = friend.name;
-    this.letters = friend.letters.map(function (letter) {
-        var el = new Letter(letter, friend.name);
-        app.letters.push(el);
-        return el;
-    });
-};
-
 rivets.bind(document.getElementById('app-view'), {app: app});
+
+
+//////////////////////////////////////////////////////////////
+// User
+//////////////////////////////////////////////////////////////
+function User(user) {
+    this.name = user.username;
+    this.pk = user.pk;
+    this.letters = [];
+    this.transactions = [];
+};
+
+User.prototype.addTransaction = function (transaction) {
+    this.transactions.push(transaction);
+};
+
+User.prototype.updateTransaction = function (transaction) {
+    var index = this.transactions.findIndex(function (t) {
+        return t.pk === transaction.pk;
+    });
+    if (index != -1) {
+        this.transactions.splice(index, 1, transaction);
+    } else {
+        console.error(this.name + " has no such transaction " + transaction);
+    }
+};
+
+User.prototype.toString = function () {
+    return this.name;
+};
 
 //////////////////////////////////////////////////////////////
 // WebSocket
 //////////////////////////////////////////////////////////////
-socket = new WebSocket("ws://" + window.location.host + "/anagrams");
+socket = new WebSocket("ws://" + window.location.host + "/anagrams/");
 socket.sendJSON = function (message) {
     console.log("OUT", message);
-    socket.send(JSON.stringify(message));
+    socket.send(JSON.stringify({
+        stream: 'anagrams',
+        payload: message
+    }));
 }
 
 socket.onmessage = function(e) {
@@ -85,29 +186,155 @@ socket.onmessage = function(e) {
         console.error("Unexpected string from server", e.data);
     }
 
-    console.log("IN", message);
+    console.log("IN (" + message.stream + ")", message.payload);
 
-    if (message.type === "chat") {
-        app.chats.push(message);
+    if (message.stream === 'users') {
+        if (message.payload.action === 'list') {
+            app.friends = message.payload.data.filter(function (user) {
+                return user.pk !== app.user.pk;
+            }).map(function (user) {
+                return new User(user);
+            });
+
+            var msg = {
+              stream: "userletters",
+              payload: {
+                action: "list",
+                data: {}
+              }
+            };
+            socket.send(JSON.stringify(msg));
+        }
     }
-    if (message.type === "init-game") {
-        app.user.name = message.username;
-        app.user.letters = message.letters;
-        app.friends = message.friends.map(function (friend) {
-            return new Friend(friend);
-        });
+
+    if (message.stream === "lettertransactions" && !('response_status' in message.payload)) {
+        if (message.payload.action === 'create' || message.payload.action === 'update') {
+            message.payload.data.letter = app.letters[message.payload.data.letter];
+
+            var transactingUser = app.hydrateUser(message.payload.data.borrower);
+
+            if (transactingUser != null) {
+                var method = (message.payload.action === 'create') ? 'addTransaction' : 'updateTransaction';
+                transactingUser[method](new LetterTransaction(message.payload.data));
+            } else {
+                console.error("No user with pk ", message.payload.data.borrower);
+            }
+        }
+    }
+
+    if (message.stream === 'chats') {
+        if (message.payload.action === 'create' && !('response_status' in message.payload)) {
+            message.payload.data.user = app.hydrateUser(message.payload.data.user);
+            app.chats.push(message.payload.data);
+        }
+    }
+
+    if (message.stream === 'teamwords') {
+        if (message.payload.action === 'create' && !('response_status' in message.payload)) {
+            // message.payload.data.user = app.hydrateUser(message.payload.data.user);
+            app.successWords.push(message.payload.data.word);
+        }
+    }
+
+    if (message.stream === 'userletters') {
+        if (message.payload.action === 'list') {
+            app.user.letters = message.payload.data.filter(function (letter) {
+                return letter.user === app.user.pk;
+            }).map(function (letter) {
+                return new UserLetter(letter, app.user.name);
+            });
+            app.saveLetters(app.user.letters);
+
+            app.friends.forEach(function (friend) {
+                friend.letters = message.payload.data.filter(function (letter) {
+                    return letter.user === friend.pk;
+                }).map(function (letter) {
+                    return new UserLetter(letter, friend.name);
+                });
+                app.saveLetters(friend.letters)
+            });
+
+            if (!app.subscribed) {
+                app.subscribed = true;
+
+                var msg = {
+                  stream: "lettertransactions",
+                  payload: {
+                    action: "subscribe",
+                    data: {
+                        action: "create"
+                    }
+                  }
+                };
+                socket.send(JSON.stringify(msg));
+
+                var msg = {
+                  stream: "lettertransactions",
+                  payload: {
+                    action: "subscribe",
+                    data: {
+                        action: "update"
+                    }
+                  }
+                };
+                socket.send(JSON.stringify(msg));
+
+                var msg = {
+                  stream: "lettertransactions",
+                  payload: {
+                    action: "subscribe",
+                    data: {
+                        action: "delete"
+                    }
+                  }
+                };
+                socket.send(JSON.stringify(msg));
+
+                var msg = {
+                  stream: "chats",
+                  payload: {
+                    action: "subscribe",
+                    data: {
+                        action: "create"
+                    }
+                  }
+                };
+                socket.send(JSON.stringify(msg));
+
+                var msg = {
+                  stream: "teamwords",
+                  payload: {
+                    action: "subscribe",
+                    data: {
+                        action: "create"
+                    }
+                  }
+                };
+                socket.send(JSON.stringify(msg));
+            }
+        }
     }
 }
 
 socket.onopen = function() {
-    socket.sendJSON({
-        type: "chat",
-        message: "Hello world chat"
-    });
 
-    socket.sendJSON({
-        type: "init-game"
-    });
+    var msg = {
+      stream: "users",
+      payload: {
+        action: "list",
+        data: {}
+      }
+    };
+    socket.send(JSON.stringify(msg));
 }
+
+socket.onerror = function (err) {
+    console.error("ERROR on websocket ", err);
+}
+
+socket.onclose = function () {
+    console.log("Socket closed... let's try to reopen it soon");
+}
+
 // Call onopen directly if socket is already open
 if (socket.readyState == WebSocket.OPEN) socket.onopen();

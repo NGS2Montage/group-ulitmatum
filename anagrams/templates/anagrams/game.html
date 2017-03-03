@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "account/base_login.html" %}
 
 {% load static %}
 
@@ -6,9 +6,13 @@
 
 {% block extra_head %}
 <script type="text/javascript" src="{% static 'anagrams/rivets.bundled.min.js' %}"></script>
+<script type="text/javascript">
+    USERNAME = "{{ user.username }}";
+    USERPK = {{ user.pk }};
+</script>
 {% endblock extra_head %}
 
-{% block content %}
+{% block container %}
 <div id="app-view" class="row">
     <div class="col-md-4">
         <div class="row">
@@ -17,7 +21,7 @@
                     <span>Friend : { friend.name }</span>
                     <ul>
                         <li rv-each-letter="friend.letters">
-                            <span rv-on-click="app.requestLetter">Letter : { letter }</span>
+                            <span rv-on-click="letter.requestLetter">Letter : { letter }</span>
                         </li>
                     </ul>
                 </li>
@@ -28,7 +32,7 @@
                 <li rv-each-chat="app.chats">
                     <span>[{ chat.user }]</span>
                     <span>{chat.message}</span>
-                    <span>({chat.date})</span>
+                    <span>({chat.created})</span>
                 </li>
             </ul>
 
@@ -36,7 +40,7 @@
                 <div class="form-group">
                     <input rv-value="app.newChat" rv-on-submit="app.sendChat" type="text" name="new-chat">
                 </div>
-                <button rv-on-click="app.sendChat" type="submit" class="btn btn-default">Submit</button>
+                <button rv-on-click="app.sendChat" type="submit" class="btn btn-default">Send Chat</button>
             </form>
         </div>
     </div>
@@ -44,16 +48,23 @@
         <div class="row">
             <ul>
                 <li rv-each-word="app.successWords">
-                    <span>word</span>
+                    <span>{word}</span>
                 </li>
             </ul>
         </div>
         <div class="row">
             Enter word:
             need input here
+            <form onsubmit="return false">
+                <div class="form-group">
+                    <input rv-value="app.newWord" rv-on-submit="app.sendWord" type="text" name="new-word">
+                </div>
+                <button rv-on-click="app.sendWord" type="submit" class="btn btn-default">Submit</button>
+            </form>
         </div>
     </div>
     <div class="col-md-4">
+        <div class="row">Welcome, {app.user.name}</div>
         <div class="row">Countdown goes here</div>
         <div class="row">
             Your Letters:
@@ -61,16 +72,24 @@
                 <li rv-each-letter="app.user.letters">{letter}</li>
             </ul>
             Requested by your friends:
-            <ul>
-                
+            <ul rv-each-friend="app.friends">
+                <li rv-each-transaction="friend.transactions"
+                    rv-on-click="transaction.approve"
+                    rv-hide="transaction.approved">
+                    {friend.name} requests your {transaction}
+                </li>
             </ul>
             Received from your friends:
             <ul>
-                <li rv-each-letter="app.letters" rv-show="letter.received">{letter | letterRequest}</li>                
+                <li rv-each-transaction="app.user.transactions"
+                    rv-show="transaction.approved">
+                    {transaction} from {transaction.letter.user}</li>
             </ul>
             Requested by you and waiting for response:
             <ul>
-                <li rv-each-letter="app.letters" rv-show="letter.requested">{letter | letterRequest}</li>
+                <li rv-each-transaction="app.user.transactions"
+                    rv-hide="transaction.approved">
+                    requested {transaction} from {transaction.letter.user}</li>
             </ul>
         </div>
     </div>

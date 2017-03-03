@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from annoying.decorators import render_to
-from .models import Game, UserState, GameStates
+from .models import Game, GameStates
 from django.views.generic import RedirectView
 from django.urls import reverse
 
@@ -18,8 +18,8 @@ def state_mismatch(request):
 class MyRedirectView(RedirectView):
     def get(self, request, *args, **kwargs):
         user = request.user
-        user_state = user.userstate.state
-        game_state = user.userstate.game.state
+        user_state = user.profile.state
+        game_state = user.profile.game.state
         if user_state.state_code == 'pre':
             self.url = reverse(user_state.url_name)
         elif user_state in game_state.allowed_user_states.all():

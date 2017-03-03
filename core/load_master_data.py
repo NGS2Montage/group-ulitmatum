@@ -9,7 +9,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ngs2.settings")
 import django
 django.setup()
 
-from core.models import GameStates
+from core.models import GameStates, Game
 
 
 def load_game_states():
@@ -67,5 +67,10 @@ def load_game_states():
         print "\n" + "-" * 40 + "\n"
 
 
+def create_game():
+  Game.objects.get_or_create(game_code="initial", state=GameStates.objects.get(state_code="pre"))
+
+
 if __name__ == "__main__":
     load_game_states()
+    create_game()
