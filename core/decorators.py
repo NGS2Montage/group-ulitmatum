@@ -18,8 +18,8 @@ def game_state_required(user_state, game_state, *dec_args, **dec_kwargs):
             if request.user.is_anonymous():
                 return view_func(request, *args, **kwargs)
 
-            current_game_state = Game.objects.get_current_game().state
-            current_user_state = request.user.userstate.state
+            current_game_state = request.user.userstate.game.state.state_code
+            current_user_state = request.user.userstate.state.state_code
 
             if current_game_state == game_state and current_user_state == user_state:
                 return view_func(request, *args, **kwargs)
@@ -33,7 +33,7 @@ def game_state_required(user_state, game_state, *dec_args, **dec_kwargs):
                 messages.add_message(request, messages.INFO, "Required game state {}".format(game_state))
                 messages.add_message(request, messages.INFO, "Required user state {}".format(user_state))
 
-            return HttpResponseRedirect(reverse('state-mismatch'))
+            return HttpResponseRedirect(reverse('redirect'))
         return _view
     return _decorator
 

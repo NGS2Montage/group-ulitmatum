@@ -18,9 +18,15 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 from core import views
+from django.views.generic import TemplateView
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^redirect/$', views.MyRedirectView.as_view(), name='redirect'),
+    url(r'^oops/$', TemplateView.as_view(template_name='oops.html'), name='oops'),
+    url(r'^additional_user_info/$', TemplateView.as_view(template_name='additional_user_info.html'), name='additional-user-info'),
+    url(r'^initial_survey/$', TemplateView.as_view(template_name='initial_survey.html'), name='initial-survey'),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^phase1/', include('anagrams.urls')),
     url(r'^phase2/', include('publicgoods.urls')),

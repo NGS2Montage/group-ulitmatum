@@ -204,6 +204,7 @@ SITE_ID = 2
 
 
 
+
 # ALLAUTH CONFIGURATION
 # ------------------------------------------------------------------------------
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
@@ -214,10 +215,21 @@ ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
 ACCOUNT_ADAPTER = 'core.users.adapters.AccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'core.users.adapters.SocialAccountAdapter'
 
-# These can be useful
-# LOGIN_REDIRECT_URL = 'home'
-# LOGIN_URL = 'account_login'
 
+# These can be useful
+LOGIN_REDIRECT_URL = 'redirect'
+LOGIN_URL = '/accounts/login/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+
+ACCOUNT_FORMS = {'login': 'core.forms.LoginForm',
+                 'change_password': 'core.forms.ChangePasswordForm',
+                 'reset_password': 'core.forms.ResetPasswordForm',
+                 'reset_password_from_key': 'core.forms.ResetPasswordKeyForm'}
+
+
+CRISPY_FAIL_SILENTLY = True
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # CHANNELS
 # ------------------------------------------------------------------------------
@@ -279,3 +291,13 @@ LOGGING = {
         },
     }
 }
+
+
+# EMAIL SETTINGS
+# ------------------------------------------------------------------------------
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ngs2.montage@gmail.com'
+EMAIL_HOST_PASSWORD = env.str('PASSWORD')
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = 'NGS2 Montage <ngs2.montage@gmail.com>'
