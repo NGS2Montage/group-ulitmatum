@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from annoying.decorators import render_to
 from .models import Game, GameStates
 from django.views.generic import RedirectView
 from django.urls import reverse
+from django.conf import settings
 
 
 @render_to('state-mismatch.html')
@@ -15,7 +17,9 @@ def state_mismatch(request):
     return context
 
 
-class MyRedirectView(RedirectView):
+class MyRedirectView(LoginRequiredMixin, RedirectView):
+    login_url = settings.LOGIN_URL
+
     def get(self, request, *args, **kwargs):
         user = request.user
         user_state = user.profile.state

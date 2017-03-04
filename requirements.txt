@@ -17,6 +17,7 @@ django-allauth==0.30.0
 
 # Websockets
 channels==1.0.3
+channels-api==0.3.1
 
 # General utilities
 arrow==0.10.0
