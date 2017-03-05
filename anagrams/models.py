@@ -33,3 +33,12 @@ class TeamWord(TimeStampedModel):
 
     def __str__(self):
         return u'({}) {}'.format(self.user.username, self.word)
+
+
+@python_2_unicode_compatible
+class Dictionary(models.Model):
+    word = models.CharField(max_length=100, db_index=True, unique=True)
+
+    def __str__(self):
+        return self.word
+

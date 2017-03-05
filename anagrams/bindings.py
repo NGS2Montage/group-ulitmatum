@@ -6,7 +6,7 @@ from django.db.models import Q
 
 from channels_api.bindings import ResourceBinding
 
-from .models import LetterTransaction, UserLetter, TeamWord
+from .models import LetterTransaction, UserLetter, TeamWord, Dictionary
 from .serializers import LetterTransactionSerializer, UserLetterSerializer, TeamWordSerializer
 
 
@@ -17,7 +17,7 @@ class TeamWordBinding(ResourceBinding):
     serializer_class = TeamWordSerializer
 
     def get_queryset(self):
-        return TeamWord.objects.filter(user__profile__team=self.user.group.team)
+        return TeamWord.objects.filter(user__group__team=self.user.group.team)
 
     @classmethod
     def group_names(self, instance, action):
@@ -35,12 +35,33 @@ class TeamWordBinding(ResourceBinding):
                 logger.debug("Possibly malicious malformed TeamWord from {}".format(self.user.username))
                 return False
 
-            # Need UserLetters for self.user and LetterTransactions with borrower == self.user
+            word = payload['data']['word']
+            word_letters = set(word.lower())
+            if len(word_letters) == 0:
+                return False
 
-            # TODO Do a lot of checking here to make sure that this guy has access 
-            # to all the letters he is trying to use and that it's a real
-            # word, return False for any of those problems
-            # Also make sure that this word is not already in the table
+            user = self.user
+            user_letters = set()
+            for letter in UserLetter.objects.filter(user=user):
+                user_letters.add(letter.letter.lower())
+            for letter in LetterTransaction.objects.filter(borrower=user, approved=True):
+                user_letters.add(letter.letter.lower())
+
+            if not word_letters.issubset(user_letters):
+                return False
+
+            team_words = set()
+            for tword in self.get_queryset():
+                team_words.add(tword.word)
+
+            if word in team_words:
+                return False
+
+            try:
+                wordObj = Dictionary.objects.get(word=word)
+            except Exception, e:
+                return False
+
             return True
 
         # allow list, retrieve, subscribe

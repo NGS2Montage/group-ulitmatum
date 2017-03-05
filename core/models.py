@@ -24,7 +24,7 @@ class Game(TimeStampedModel):
     objects = GameManager()
 
     def __str__(self):
-        return u'game={} state='.format(self.game_code)
+        return u'game={} state={}'.format(self.game_code, self.state)
 
     # def advance_to_next_state(self):
     #     if self.state == 'w1':

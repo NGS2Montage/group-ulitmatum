@@ -234,6 +234,17 @@ socket.onmessage = function(e) {
             // message.payload.data.user = app.hydrateUser(message.payload.data.user);
             app.successWords.push(message.payload.data.word);
         }
+        else if (message.payload.action === 'create' && ('response_status' in message.payload)
+            && (message.payload.response_status == '401')) {
+            console.log(message);
+            alert("You are not allowed to submit this word, either because you don't have the letters or the word " +
+                "has already been formed by someone else on your team.");
+        }
+        if (message.payload.action === 'list'){
+            message.payload.data.forEach(function (wordObj) {
+                app.successWords.push(wordObj.word);
+            });
+        }
     }
 
     if (message.stream === 'userletters') {
@@ -308,6 +319,15 @@ socket.onmessage = function(e) {
                     data: {
                         action: "create"
                     }
+                  }
+                };
+                socket.send(JSON.stringify(msg));
+
+                var msg = {
+                  stream: "teamwords",
+                  payload: {
+                    action: "list",
+                    data: {}
                   }
                 };
                 socket.send(JSON.stringify(msg));
